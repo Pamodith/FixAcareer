@@ -1,7 +1,9 @@
 import Redis from 'ioredis'
 import Redlock from 'redlock'
+import { moduleLogger } from '@sliit-foss/module-logger'
 import config from '../../config'
-import logger from '../../utils/logger'
+
+const logger = moduleLogger('Redis')
 
 const redis = new Redis(config.REDIS_CONNECTION_STRING)
 

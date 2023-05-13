@@ -1,5 +1,7 @@
 import { isCelebrateError } from 'celebrate'
-import logger from '../utils/logger'
+import { moduleLogger } from '@sliit-foss/module-logger'
+
+const logger = moduleLogger('Error-handler')
 
 // eslint-disable-next-line no-unused-vars
 export const errorHandler = (err, _req, res, _next) => {

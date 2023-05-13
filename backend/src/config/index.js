@@ -1,5 +1,7 @@
 import { Joi } from 'celebrate'
-import logger from '../utils/logger'
+import { moduleLogger } from '@sliit-foss/module-logger'
+
+const logger = moduleLogger('Config')
 
 class Base {
   static get schema() {
