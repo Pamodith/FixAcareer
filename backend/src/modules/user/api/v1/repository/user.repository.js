@@ -35,7 +35,7 @@ const getUserById = async (id) => {
     .lean()
     .then((result) => {
       if (result) return result
-      throw new Error(`User not found - id: ${id}`)
+      else throw new Error(`User not found - id: ${id}`)
     })
     .catch((err) => {
       logger.error(`An error occurred when retrieving user - err: ${err.message}`)
@@ -60,8 +60,7 @@ const updateUserById = async (id, updateBody) => {
       if (result) {
         delete result.password
         return result
-      }
-      throw new Error(`User not found - id: ${id}`)
+      } else throw new Error(`User not found - id: ${id}`)
     })
     .catch((err) => {
       logger.error(`An error occurred when updating user - err: ${err.message}`)
@@ -74,7 +73,7 @@ const deleteUserById = async (id) => {
     .lean()
     .then((result) => {
       if (result) return result
-      throw new Error(`User not found - id: ${id}`)
+      else throw new Error(`User not found - id: ${id}`)
     })
     .catch((err) => {
       logger.error(`An error occurred when deleting user - err: ${err.message}`)

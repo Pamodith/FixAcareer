@@ -43,7 +43,6 @@
         "includeExports": true
       }
     ],
-    "no-else-return": "error",
     "no-eq-null": "error",
     "no-extra-bind": "error",
     "no-lone-blocks": "error",

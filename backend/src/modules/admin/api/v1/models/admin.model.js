@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose'
+import { model, Schema } from 'mongoose'
 import mongoosePaginate from 'mongoose-paginate-v2'
 
-const UserSchema = new Schema(
+const AdminSchema = new Schema(
   {
     id: {
       type: String,
@@ -13,6 +13,10 @@ const UserSchema = new Schema(
       required: true,
     },
     lastName: {
+      type: String,
+      required: false,
+    },
+    gender: {
       type: String,
       required: false,
     },
@@ -28,11 +32,25 @@ const UserSchema = new Schema(
     phone: {
       type: String,
       required: false,
-      default: null,
     },
-    educationLevel: {
-      type: String,
-      required: true,
+    permissions: {
+      type: [String],
+      default: [],
+    },
+    addedBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'Admin',
+      required: false,
+    },
+    lastUpdatedBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'Admin',
+      required: false,
+    },
+    isActive: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
     isFirstLogin: {
       type: Boolean,
@@ -45,17 +63,15 @@ const UserSchema = new Schema(
       default: false,
     },
   },
-  {
-    timestamps: true,
-  },
+  { timestamps: true },
 )
 
-UserSchema.index({ createdAt: 1 })
+AdminSchema.index({ createdAt: 1 })
 
-UserSchema.plugin(mongoosePaginate)
+AdminSchema.plugin(mongoosePaginate)
 
-const User = model('User', UserSchema)
+const Admin = model('Admin', AdminSchema)
 
-User.syncIndexes()
+Admin.syncIndexes()
 
-export default User
+export default Admin
