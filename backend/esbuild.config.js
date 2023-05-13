@@ -1,9 +1,9 @@
 /* eslint-disable import/unambiguous */
 
-const execSync = require('child_process').execSync;
-const { globPlugin } = require('esbuild-plugin-glob');
+const execSync = require('child_process').execSync
+const { globPlugin } = require('esbuild-plugin-glob')
 
-execSync('npx rimraf ./dist && mkdir dist');
+execSync('npx rimraf ./dist && mkdir dist')
 
 require('esbuild')
   .build({
@@ -21,4 +21,4 @@ require('esbuild')
     },
     plugins: [globPlugin()],
   })
-  .catch(() => process.exit(1));
+  .catch(() => process.exit(1))

@@ -1,7 +1,7 @@
-import { Joi } from 'celebrate';
-import { moduleLogger } from '@sliit-foss/module-logger';
+import { Joi } from 'celebrate'
+import { moduleLogger } from '@sliit-foss/module-logger'
 
-const logger = moduleLogger('Config');
+const logger = moduleLogger('Config')
 
 class Base {
   static get schema() {
@@ -10,7 +10,7 @@ class Base {
       PORT: Joi.number().optional(),
       REDIS_CONNECTION_STRING: Joi.string().optional(),
       DB_URL: Joi.string().optional(),
-    };
+    }
   }
   static get values() {
     return {
@@ -18,17 +18,17 @@ class Base {
       PORT: process.env.PORT ?? 8080,
       REDIS_CONNECTION_STRING: process.env.REDIS_CONNECTION_STRING,
       DB_URL: process.env.DB_URL,
-    };
+    }
   }
 }
 
-const config = Base.values;
+const config = Base.values
 
-const { error } = Joi.object(Base.schema).validate(config);
+const { error } = Joi.object(Base.schema).validate(config)
 
 if (error) {
-  logger.error(`Environment validation failed. \nDetails - ${error.details[0].message}\nExiting...`);
-  process.exit(1);
+  logger.error(`Environment validation failed. \nDetails - ${error.details[0].message}\nExiting...`)
+  process.exit(1)
 }
 
-export default config;
+export default config

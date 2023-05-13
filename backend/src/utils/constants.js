@@ -1,2 +1,2 @@
-export const correlationId = 'x-correlation-id';
-export const hostName = 'x-host-name';
+export const correlationId = 'x-correlation-id'
+export const hostName = 'x-host-name'

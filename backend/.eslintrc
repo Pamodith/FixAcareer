@@ -57,7 +57,6 @@
       "error"
     ],
     "no-return-assign": "error",
-    "no-return-await": "error",
     "no-self-compare": "error",
     "no-template-curly-in-string": "warn",
     "no-useless-concat": "error",
