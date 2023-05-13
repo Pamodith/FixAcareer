@@ -1,7 +1,5 @@
-import { moduleLogger } from '@sliit-foss/module-logger'
+import logger from '../../../../../utils/logger'
 import Roadmap from '../models/roadmap.model'
-
-const logger = moduleLogger('Roadmap-Repository')
 
 export const createRoadmap = async (roadmap) => {
   return await Roadmap.create(roadmap)

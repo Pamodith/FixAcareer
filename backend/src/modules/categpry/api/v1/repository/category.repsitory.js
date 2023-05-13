@@ -1,7 +1,5 @@
-import { moduleLogger } from '@sliit-foss/module-logger'
+import logger from '../../../../../utils/logger'
 import Category from '../models/category.model'
-
-const logger = moduleLogger('Category-Repository')
 
 export const insertCategory = async (category) => {
   return await Category.create(category)

@@ -1,8 +1,6 @@
 import mongoose from 'mongoose'
-import { moduleLogger } from '@sliit-foss/module-logger'
 import config from '../../config'
-
-const logger = moduleLogger('Database-Connector')
+import logger from '../../utils/logger'
 
 export const connectDatabase = () => {
   try {

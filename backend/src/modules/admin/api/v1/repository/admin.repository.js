@@ -1,7 +1,5 @@
-import { moduleLogger } from '@sliit-foss/module-logger'
+import logger from '../../../../../utils/logger'
 import Admin from '../models/admin.model'
-
-const logger = moduleLogger('Admin-Repository')
 
 export const insertAdmin = async (admin) => {
   return await Admin.create(admin)

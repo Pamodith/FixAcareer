@@ -1,7 +1,5 @@
-import { moduleLogger } from '@sliit-foss/module-logger'
+import logger from '../../../../../utils/logger'
 import Job from '../models/job.model'
-
-const logger = moduleLogger('Job-Repository')
 
 export const createJob = async (job) => {
   return await Job.create(job)

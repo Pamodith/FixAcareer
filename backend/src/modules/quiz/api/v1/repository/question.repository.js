@@ -1,7 +1,5 @@
-import { moduleLogger } from '@sliit-foss/module-logger'
+import logger from '../../../../../utils/logger'
 import Question from '../models/question.model'
-
-const logger = moduleLogger('Question-Repository')
 
 export const createQuestion = async (question) => {
   return await Question.create(question)
