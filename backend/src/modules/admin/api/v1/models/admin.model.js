@@ -62,6 +62,16 @@ const AdminSchema = new Schema(
       required: false,
       default: false,
     },
+    secret: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    choosenOTPMethod: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   { timestamps: true },
 )

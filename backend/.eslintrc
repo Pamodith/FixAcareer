@@ -62,6 +62,12 @@
     "no-useless-constructor": "error",
     "no-useless-escape": "error",
     "no-var": "error",
+    "no-unused-vars": [
+      "warn",
+      {
+        "args": "none"
+      }
+    ],
     "prefer-const": "error",
     "prefer-promise-reject-errors": "error",
     "prefer-template": "error",

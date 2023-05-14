@@ -3,7 +3,7 @@ import Admin from '../models/admin.model'
 
 const logger = moduleLogger('Admin-Repository')
 
-export const insertAdmin = async (admin) => {
+const insertAdmin = async (admin) => {
   return await Admin.create(admin)
     .then(async (result) => {
       await result.save()
@@ -17,7 +17,7 @@ export const insertAdmin = async (admin) => {
     })
 }
 
-export const getAdmins = async () => {
+const getAdmins = async () => {
   return await Admin.find({}, { password: 0 })
     .lean()
     .then((result) => {
@@ -30,7 +30,7 @@ export const getAdmins = async () => {
     })
 }
 
-export const getAdminById = async (id) => {
+const getAdminById = async (id) => {
   return await Admin.findById(id)
     .lean()
     .then((result) => {
@@ -43,7 +43,7 @@ export const getAdminById = async (id) => {
     })
 }
 
-export const getAdminByEmail = async (email) => {
+const getAdminByEmail = async (email) => {
   return await Admin.findOne({ email })
     .lean()
     .then((result) => result)
@@ -53,7 +53,7 @@ export const getAdminByEmail = async (email) => {
     })
 }
 
-export const updateAdminById = async (id, updateBody) => {
+const updateAdminById = async (id, updateBody) => {
   return await Admin.findByIdAndUpdate(id, updateBody, { new: true })
     .lean()
     .then((result) => {
@@ -70,7 +70,7 @@ export const updateAdminById = async (id, updateBody) => {
     })
 }
 
-export const deleteAdminById = async (id) => {
+const deleteAdminById = async (id) => {
   return await Admin.findByIdAndDelete(id)
     .lean()
     .then((result) => {
@@ -85,7 +85,7 @@ export const deleteAdminById = async (id) => {
     })
 }
 
-export const getPermissionsByAdminId = async (id) => {
+const getPermissionsByAdminId = async (id) => {
   return await Admin.findById(id)
     .lean()
     .then((result) => {
@@ -98,7 +98,7 @@ export const getPermissionsByAdminId = async (id) => {
     })
 }
 
-export const updatePermissionsByAdminId = async (id, permissions) => {
+const updatePermissionsByAdminId = async (id, permissions) => {
   return await Admin.findById(id)
     .lean()
     .then(async (result) => {
@@ -114,7 +114,7 @@ export const updatePermissionsByAdminId = async (id, permissions) => {
     })
 }
 
-export const getLastInsertedAdmin = async () => {
+const getLastInsertedAdmin = async () => {
   return await Admin.findOne()
     .sort({ _id: -1 })
     .limit(1)
