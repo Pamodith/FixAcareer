@@ -27,10 +27,36 @@ admin.get(
 )
 
 admin.post(
+  '/login',
+  tracedAsyncHandler(async function login(req, res) {
+    await AdminService.adminLogin(req.body.email, req.body.password)
+      .then((data) => {
+        return toSuccess({ res, status: 200, data, message: 'Success' })
+      })
+      .catch((err) => {
+        return toError({ res, status: 401, message: err.message })
+      })
+  }),
+)
+
+admin.post(
+  '/refresh-token',
+  tracedAsyncHandler(async function refreshToken(req, res) {
+    await AdminService.refreshToken(req.body.refreshToken)
+      .then((data) => {
+        return toSuccess({ res, status: 200, data, message: 'Success' })
+      })
+      .catch((err) => {
+        return toError({ res, message: err.message })
+      })
+  }),
+)
+
+admin.post(
   '/',
   tracedAsyncHandler(async function createAdmin(req, res) {
-    const password = sha256(generatePassword()).toString()
-    req.body.password = password
+    const password = generatePassword()
+    req.body.password = sha256(password).toString()
     await AdminService.insertAdmin(req.body)
       .then(async (data) => {
         await AdminEmailService.sendGeneratedPassord(data, password)
@@ -120,32 +146,6 @@ admin.put(
   }),
 )
 
-admin.post(
-  '/login',
-  tracedAsyncHandler(async function login(req, res) {
-    await AdminService.login(req.body)
-      .then((data) => {
-        return toSuccess({ res, status: 200, data, message: 'Success' })
-      })
-      .catch((err) => {
-        return toError({ res, message: err.message })
-      })
-  }),
-)
-
-admin.post(
-  '/refresh-token',
-  tracedAsyncHandler(async function refreshToken(req, res) {
-    await AdminService.refreshToken(req.body)
-      .then((data) => {
-        return toSuccess({ res, status: 200, data, message: 'Success' })
-      })
-      .catch((err) => {
-        return toError({ res, message: err.message })
-      })
-  }),
-)
-
 admin.get(
   '/:id/verification/status',
   tracedAsyncHandler(async function getTotpStatusById(req, res) {
@@ -154,7 +154,7 @@ admin.get(
         return toSuccess({ res, status: 200, data, message: 'Success' })
       })
       .catch((err) => {
-        return toError({ res, message: err.message })
+        return toError({ res, status: 400, message: err.message })
       })
   }),
 )
@@ -167,7 +167,7 @@ admin.post(
         return toSuccess({ res, status: 200, data, message: 'Success' })
       })
       .catch((error) => {
-        return toError({ res, message: error.message })
+        return toError({ res, status: 400, message: error.message })
       })
   }),
 )
@@ -180,7 +180,7 @@ admin.post(
         return toSuccess({ res, status: 200, data, message: 'Success' })
       })
       .catch((error) => {
-        return toError({ res, message: error.message })
+        return toError({ res, status: 400, message: error.message })
       })
   }),
 )

@@ -13,20 +13,21 @@ import {
   Image,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import AdminAPI from "../../../api/AdminAPI";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { IconCheck, IconAlertTriangle } from "@tabler/icons";
+import { IconCheck, IconAlertTriangle } from "@tabler/icons-react";
 import sha256 from "crypto-js/sha256";
 import Reaptcha from "reaptcha";
 import { useState } from "react";
-import { AdminDataLogin } from "../../../models/admin";
+import { AdminDataLogin } from "../../interfaces";
+import { AdminLoginService } from "../../services";
 
 const AdminLogin: React.FC = () => {
   if (localStorage.getItem("role")) {
-    if (localStorage.getItem("role") === "admin") {
+    if (
+      localStorage.getItem("role") === "admin" &&
+      JSON.parse(localStorage.getItem("admin") || "{}").accessToken
+    ) {
       window.location.href = "/admin/dashboard";
-    } else {
-      //to do
     }
   }
 
@@ -34,7 +35,7 @@ const AdminLogin: React.FC = () => {
   const [isFirstTime, setIsFirstTime] = useState<boolean>(false);
   const [adminData, setAdminData] = useState<AdminDataLogin>({
     _id: "",
-    name: "",
+    id: "",
     email: "",
     role: "admin",
   });
@@ -54,22 +55,22 @@ const AdminLogin: React.FC = () => {
       title: "Logging in...",
       message: "Please wait while we log you in to the admin dashboard",
       autoClose: false,
-      disallowClose: true,
+      withCloseButton: false,
     });
 
     const encryptedPassword = sha256(values.password);
 
-    AdminAPI.adminLogin(values.email, encryptedPassword.toString())
+    AdminLoginService.adminLogin(values.email, encryptedPassword.toString())
       .then(async (response) => {
         setAdminData({
-          _id: response.data._id,
-          name: response.data.name,
-          email: response.data.email,
+          _id: response.data.data._id,
+          id: response.data.data.id,
+          email: response.data.data.email,
           role: "admin",
         });
-        await AdminAPI.getTOTPByAdminId(response.data._id)
+        await AdminLoginService.getTOTPByAdminId(response.data.data._id)
           .then((response) => {
-            setIsFirstTime(response.data.isFirstTime);
+            setIsFirstTime(response.data.data.isFirstTime);
             setOtpStep(true);
             updateNotification({
               id: "login-admin",
@@ -77,31 +78,31 @@ const AdminLogin: React.FC = () => {
               title: "Logged in successfully",
               message:
                 "You have been logged in successfully. Redirecting you to the admin dashboard...",
-              icon: <IconCheck size={16} />,
+              icon: <IconCheck />,
               autoClose: 1000,
             });
           })
-          .catch((error) => {
+          .catch(() => {
             updateNotification({
               id: "login-admin",
               color: "red",
               title: "Login failed",
               message:
                 "We were unable to log you in. Please check your email and password and try again.",
-              icon: <IconAlertTriangle size={16} />,
+              icon: <IconAlertTriangle />,
               autoClose: 5000,
             });
             return null;
           });
       })
-      .catch((error) => {
+      .catch(() => {
         updateNotification({
           id: "login-admin",
           color: "red",
           title: "Login failed",
           message:
             "We were unable to log you in. Please check your email and password and try again.",
-          icon: <IconAlertTriangle size={16} />,
+          icon: <IconAlertTriangle />,
           autoClose: 5000,
         });
       });
@@ -114,9 +115,9 @@ const AdminLogin: React.FC = () => {
       title: "Please wait...",
       message: "We are processing your request",
       autoClose: false,
-      disallowClose: true,
+      withCloseButton: false,
     });
-    await AdminAPI.chooseTOTPMethodByAdminId(adminData._id, method)
+    await AdminLoginService.chooseTOTPMethodByAdminId(adminData._id, method)
       .then((response) => {
         if (method === "email") {
           setChoosenMethod("email");
@@ -125,39 +126,29 @@ const AdminLogin: React.FC = () => {
             color: "teal",
             title: "Success",
             message: "We have sent you an OTP to your email",
-            icon: <IconCheck size={16} />,
-            autoClose: 1000,
-          });
-        } else if (method === "phone") {
-          setChoosenMethod("phone");
-          updateNotification({
-            id: "choose-otp-method",
-            color: "teal",
-            title: "Success",
-            message: "We have sent you an OTP to your phone",
-            icon: <IconCheck size={16} />,
+            icon: <IconCheck />,
             autoClose: 1000,
           });
         } else {
           setChoosenMethod("app");
-          setQrCode(response.data.qrCode);
+          setQrCode(response.data.data.qrCode);
           updateNotification({
             id: "choose-otp-method",
             color: "teal",
             title: "Success",
             message: "Please scan the QR code usine your authenticator app",
-            icon: <IconCheck size={16} />,
+            icon: <IconCheck />,
             autoClose: 1000,
           });
         }
       })
-      .catch((error) => {
+      .catch(() => {
         updateNotification({
           id: "choose-otp-method",
           color: "red",
           title: "Failed",
           message: "We were unable to process your request",
-          icon: <IconAlertTriangle size={16} />,
+          icon: <IconAlertTriangle />,
           autoClose: 5000,
         });
       });
@@ -170,22 +161,25 @@ const AdminLogin: React.FC = () => {
       title: "Please wait...",
       message: "We are verifying your OTP",
       autoClose: false,
-      disallowClose: true,
+      withCloseButton: false,
     });
-    await AdminAPI.verifyTOTPByAdminId(adminData, otp)
+    await AdminLoginService.verifyTOTPByAdminId(adminData, otp)
       .then((response) => {
-        if (response.data.isVerified) {
+        if (response.data.data.isTOTPVerified) {
           updateNotification({
             id: "verify-otp",
             color: "teal",
             title: "Success",
             message: "You have been verified successfully",
-            icon: <IconCheck size={16} />,
+            icon: <IconCheck />,
             autoClose: 1000,
           });
           const adminDataNew = {
             ...adminData,
-            accessToken: response.data.accessToken,
+            firstName: response.data.data.firstName,
+            lastName: response.data.data.lastName,
+            accessToken: response.data.data.accessToken,
+            refreshToken: response.data.data.refreshToken,
           };
           //add data to local storage
           localStorage.setItem("admin", JSON.stringify(adminDataNew));
@@ -201,18 +195,18 @@ const AdminLogin: React.FC = () => {
             color: "red",
             title: "Failed",
             message: "We were unable to verify your OTP, please try again",
-            icon: <IconAlertTriangle size={16} />,
+            icon: <IconAlertTriangle />,
             autoClose: 5000,
           });
         }
       })
-      .catch((error) => {
+      .catch(() => {
         updateNotification({
           id: "verify-otp",
           color: "red",
           title: "Failed",
           message: "We were unable to verify your OTP, please try again",
-          icon: <IconAlertTriangle size={16} />,
+          icon: <IconAlertTriangle />,
           autoClose: 5000,
         });
       });
@@ -326,16 +320,6 @@ const AdminLogin: React.FC = () => {
               sx={{ backgroundColor: "#3b5998", color: "white" }}
             >
               Authenticator App - Recommended
-            </Button>
-            <Button
-              fullWidth
-              mt="xl"
-              onClick={() => {
-                choose2FAMethod("phone");
-              }}
-              sx={{ backgroundColor: "#1da1f2", color: "white" }}
-            >
-              SMS
             </Button>
             <Button
               fullWidth

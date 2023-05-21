@@ -49,7 +49,7 @@ const verifyTOTP = (secret, token) => {
     secret: secret,
     encoding: 'base32',
     token: token,
-    window: 1,
+    window: 5,
   })
 }
 
@@ -77,7 +77,7 @@ const generateToken = (admin) => {
     email: admin.email,
     permissions: admin.permissions,
   }
-  return jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, { expiresIn: '30m' })
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' })
 }
 
 const generateRefreshToken = (admin) => {
@@ -86,7 +86,7 @@ const generateRefreshToken = (admin) => {
     email: admin.email,
     permissions: admin.permissions,
   }
-  return jwt.sign(payload, process.env.JWT_REFRESH_TOKEN_SECRET, { expiresIn: '7d' })
+  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' })
 }
 
 const insertAdmin = async (admin) => {
@@ -279,15 +279,16 @@ const chooseTOTPMethod = async (id, method) => {
   const admin = {
     choosenOTPMethod: method,
     lastUpdatedBy: id,
+    isFirstLogin: false,
   }
   return await AdminRepository.updateAdminById(id, admin)
-    .then((data) => {
+    .then(async (data) => {
       const secretDecrypted = decryptTOTPSecret(data.secret)
       if (method === 'email') {
         AdminEmailService.sendOTP(data, generateTOTP(secretDecrypted))
         return { choosenMethod: method }
       } else if (method === 'app') {
-        const qrCode = generateQRCode(data.email, secretDecrypted)
+        const qrCode = await generateQRCode(secretDecrypted)
         return { qrCode: qrCode, choosenMethod: method }
       }
     })
