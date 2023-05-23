@@ -44,11 +44,11 @@ const AdminLogin: React.FC = () => {
   const [otp, setOtp] = useState<string>("");
   const [captchaVerified, setCaptchaVerified] = useState<boolean>(false);
 
-  function adminLogin(values: {
+  const adminLogin = (values: {
     email: string;
     password: string;
     remember: boolean;
-  }): void {
+  }) => {
     showNotification({
       id: "login-admin",
       loading: true,
@@ -106,7 +106,7 @@ const AdminLogin: React.FC = () => {
           autoClose: 5000,
         });
       });
-  }
+  };
 
   const choose2FAMethod = async (method: string) => {
     showNotification({
