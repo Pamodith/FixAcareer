@@ -1,6 +1,11 @@
 import { Container, createStyles, Tabs } from "@mantine/core";
-import { DashboardHeader } from "../../layout";
+import { DashboardHeader, Footer } from "../../layout";
 import { useNavigate, useParams } from "react-router-dom";
+import { ManageCategories } from "../../features";
+import { Category } from "../../interfaces";
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { CategoryService } from "../../services";
 
 const useStyles = createStyles((theme) => ({
   tabs: {
@@ -43,8 +48,8 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const AdminDashboard: React.FC = () => {
-  const { classes } = useStyles();
   const navigate = useNavigate();
+  const { classes } = useStyles();
   const { tabValue } = useParams();
 
   const tabs = [
@@ -82,7 +87,9 @@ const AdminDashboard: React.FC = () => {
         >
           <Tabs.List>{items}</Tabs.List>
           <Tabs.Panel value="stats">Dashboard</Tabs.Panel>
-          <Tabs.Panel value="categories">Categories</Tabs.Panel>
+          <Tabs.Panel value="categories">
+            <ManageCategories />
+          </Tabs.Panel>
           <Tabs.Panel value="jobs">Jobs</Tabs.Panel>
           <Tabs.Panel value="roadmaps">Roadmaps</Tabs.Panel>
           <Tabs.Panel value="quiz-questions">Quiz Questions</Tabs.Panel>
@@ -91,6 +98,7 @@ const AdminDashboard: React.FC = () => {
           <Tabs.Panel value="settings">Settings</Tabs.Panel>
         </Tabs>
       </Container>
+      <Footer />
     </>
   );
 };

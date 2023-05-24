@@ -3,7 +3,7 @@ import Category from '../models/category.model'
 
 const logger = moduleLogger('Category-Repository')
 
-export const insertCategory = async (category) => {
+const insertCategory = async (category) => {
   return await Category.create(category)
     .then(async (result) => {
       await result.save()
@@ -16,7 +16,7 @@ export const insertCategory = async (category) => {
     })
 }
 
-export const getCategories = async () => {
+const getCategories = async () => {
   return await Category.find({})
     .lean()
     .then((result) => {
@@ -29,7 +29,7 @@ export const getCategories = async () => {
     })
 }
 
-export const getCategoryById = async (id) => {
+const getCategoryById = async (id) => {
   return await Category.findById(id)
     .lean()
     .then((result) => {
@@ -42,7 +42,7 @@ export const getCategoryById = async (id) => {
     })
 }
 
-export const updateCategoryById = async (id, updateBody) => {
+const updateCategoryById = async (id, updateBody) => {
   return await Category.findByIdAndUpdate(id, updateBody, { new: true })
     .lean()
     .then((result) => {
@@ -55,7 +55,7 @@ export const updateCategoryById = async (id, updateBody) => {
     })
 }
 
-export const deleteCategoryById = async (id) => {
+const deleteCategoryById = async (id) => {
   return await Category.findByIdAndDelete(id)
     .lean()
     .then((result) => {
@@ -68,12 +68,26 @@ export const deleteCategoryById = async (id) => {
     })
 }
 
+const getLastInsertedCategory = async () => {
+  return await Category.findOne({})
+    .sort({ createdAt: -1 })
+    .lean()
+    .then((result) => {
+      return result
+    })
+    .catch((err) => {
+      logger.error(`An error occurred when retrieving category - err: ${err.message}`)
+      throw err
+    })
+}
+
 const CategoryRepository = {
   insertCategory,
   getCategories,
   getCategoryById,
   updateCategoryById,
   deleteCategoryById,
+  getLastInsertedCategory,
 }
 
 export default CategoryRepository

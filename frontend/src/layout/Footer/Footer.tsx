@@ -14,6 +14,9 @@ import {
 
 const useStyles = createStyles((theme) => ({
   footer: {
+    //position: "fixed",
+    //bottom: 0,
+    //width: "100%",
     backgroundColor:
       theme.colorScheme === "dark"
         ? theme.colors.dark[6]

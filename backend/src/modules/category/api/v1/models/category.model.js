@@ -24,12 +24,12 @@ const CategorySchema = new Schema(
     addedBy: {
       type: Schema.Types.ObjectId,
       ref: 'Admin',
-      required: false,
+      required: true,
     },
     lastUpdatedBy: {
       type: Schema.Types.ObjectId,
       ref: 'Admin',
-      required: false,
+      required: true,
     },
   },
   {

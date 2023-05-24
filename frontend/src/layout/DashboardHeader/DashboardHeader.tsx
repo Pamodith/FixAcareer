@@ -121,9 +121,14 @@ const DashboardHeader: React.FC = () => {
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Label>Settings</Menu.Label>
-              <Menu.Item icon={<IconSettings size="0.9rem" stroke={1.5} />}>
-                Account settings
-              </Menu.Item>
+              <Link
+                to="/admin/dashboard/settings"
+                style={{ textDecoration: "none" }}
+              >
+                <Menu.Item icon={<IconSettings size="0.9rem" stroke={1.5} />}>
+                  Account settings
+                </Menu.Item>
+              </Link>
               <Link to="/logout" style={{ textDecoration: "none" }}>
                 <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />}>
                   Logout

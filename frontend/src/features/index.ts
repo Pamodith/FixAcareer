@@ -1,3 +1,4 @@
 import AdminLogin from "./AdminLogin";
 import Logout from "./Logout";
-export { AdminLogin, Logout };
+import ManageCategories from "./ManageCategories/ManageCategories";
+export { AdminLogin, Logout, ManageCategories };
