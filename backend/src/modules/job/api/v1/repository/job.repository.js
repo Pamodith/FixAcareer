@@ -3,7 +3,7 @@ import Job from '../models/job.model'
 
 const logger = moduleLogger('Job-Repository')
 
-export const createJob = async (job) => {
+const createJob = async (job) => {
   return await Job.create(job)
     .then(async (result) => {
       await result.save()
@@ -16,7 +16,7 @@ export const createJob = async (job) => {
     })
 }
 
-export const getJobs = async () => {
+const getJobs = async () => {
   return await Job.find({})
     .lean()
     .then((result) => {
@@ -29,7 +29,7 @@ export const getJobs = async () => {
     })
 }
 
-export const getJobById = async (id) => {
+const getJobById = async (id) => {
   return await Job.findById(id)
     .lean()
     .then((result) => {
@@ -42,7 +42,7 @@ export const getJobById = async (id) => {
     })
 }
 
-export const updateJobById = async (id, updateBody) => {
+const updateJobById = async (id, updateBody) => {
   return await Job.findByIdAndUpdate(id, updateBody, { new: true })
     .lean()
     .then((result) => {
@@ -55,7 +55,7 @@ export const updateJobById = async (id, updateBody) => {
     })
 }
 
-export const deleteJobById = async (id) => {
+const deleteJobById = async (id) => {
   return await Job.findByIdAndDelete(id)
     .lean()
     .then((result) => {
@@ -68,12 +68,26 @@ export const deleteJobById = async (id) => {
     })
 }
 
+const getLastInsertedJob = async () => {
+  return await Job.findOne({})
+    .sort({ _id: -1 })
+    .lean()
+    .then((result) => {
+      return result
+    })
+    .catch((err) => {
+      logger.error(`An error occurred when retrieving last inserted job - err: ${err.message}`)
+      throw err
+    })
+}
+
 const JobRepository = {
   createJob,
   getJobs,
   getJobById,
   updateJobById,
   deleteJobById,
+  getLastInsertedJob,
 }
 
 export default JobRepository

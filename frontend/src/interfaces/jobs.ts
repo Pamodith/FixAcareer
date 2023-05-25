@@ -1,10 +1,11 @@
 import { FileWithPath } from "@mantine/dropzone";
 
-export interface Category {
+export interface Job {
   _id: string;
   id: string;
-  name: string;
+  title: string;
   description: string;
+  category: string;
   addedBy: string;
   lastUpdatedBy: string;
   createdAt: string;
@@ -12,16 +13,18 @@ export interface Category {
   image: string;
 }
 
-export interface CategoryBasic {
-  name: string;
+export interface JobBasic {
+  title: string;
   description: string;
+  category: string;
   image: FileWithPath;
 }
 
-export interface CategoryUpdate {
+export interface JobUpdate {
   _id: string;
   id: string;
-  name: string;
+  title: string;
   description: string;
+  category: string;
   image: FileWithPath;
 }

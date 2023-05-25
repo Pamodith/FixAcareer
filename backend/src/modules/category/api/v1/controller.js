@@ -1,6 +1,8 @@
 import express from 'express'
 import { tracedAsyncHandler } from '@sliit-foss/functions'
+import formidable from 'formidable'
 import { toSuccess, toError } from '../../../../utils'
+import ImageService from '../../../../cloudinary/image.service'
 import CategoryService from './service/category.service'
 
 const category = express.Router()
@@ -15,7 +17,25 @@ category.get(
 category.post(
   '/',
   tracedAsyncHandler(async function insertCategory(req, res) {
-    await CategoryService.insertCategory(req.body)
+    const form = formidable({ multiples: true })
+    const category = await new Promise((resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) {
+          reject(err)
+        }
+        resolve({ fields, files })
+      })
+    })
+    if (category.files.image) {
+      await ImageService.uploadImage(category.files.image.filepath, 'category')
+        .then((data) => {
+          category.fields.image = data.secure_url
+        })
+        .catch((err) => {
+          return toError({ res, message: err.message })
+        })
+    }
+    await CategoryService.insertCategory(category.fields)
       .then((data) => {
         return toSuccess({ res, status: 201, data, message: 'Success' })
       })
@@ -54,7 +74,30 @@ category.get(
 category.put(
   '/:id',
   tracedAsyncHandler(async function updateCategoryById(req, res) {
-    await CategoryService.updateCategoryById(req.params.id, req.body)
+    const form = formidable({ multiples: true })
+    const category = await new Promise((resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) {
+          reject(err)
+        }
+        resolve({ fields, files })
+      })
+    })
+    const categoryToUpdate = {
+      name: category.fields.name,
+      description: category.fields.description,
+      lastUpdatedBy: category.fields.lastUpdatedBy,
+    }
+    if (category.files.image) {
+      await ImageService.uploadImage(category.files.image.filepath, 'category')
+        .then((data) => {
+          categoryToUpdate.image = data.secure_url
+        })
+        .catch((err) => {
+          return toError({ res, message: err.message })
+        })
+    }
+    await CategoryService.updateCategoryById(req.params.id, categoryToUpdate)
       .then((data) => {
         return toSuccess({ res, status: 200, data, message: 'Success' })
       })

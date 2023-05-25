@@ -14,6 +14,7 @@ import {
   TextInput,
   Textarea,
   Button,
+  Image,
 } from "@mantine/core";
 import {
   IconAlertTriangle,
@@ -25,6 +26,7 @@ import { SearchWithAddButton, Th } from "../../components";
 import { useForm } from "@mantine/form";
 import { openConfirmModal } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
+import { Dropzone, IMAGE_MIME_TYPE, FileWithPath } from "@mantine/dropzone";
 
 const ManageCategories: React.FC = () => {
   const queryClient = useQueryClient();
@@ -221,12 +223,14 @@ const ManageCategories: React.FC = () => {
     initialValues: {
       name: "",
       description: "",
+      image: {} as FileWithPath,
     },
     validate: {
       name: (value) =>
         value.length < 2 ? "Name must be at least 2 characters long" : null,
       description: (value) =>
         value.length === 0 ? "Description is required" : null,
+      image: (value) => (value === null ? "Image is required" : null),
     },
   });
 
@@ -238,12 +242,14 @@ const ManageCategories: React.FC = () => {
       id: "",
       name: "",
       description: "",
+      image: {} as FileWithPath,
     },
     validate: {
       name: (value) =>
         value.length < 2 ? "Name must be at least 2 characters long" : null,
       description: (value) =>
         value.length === 0 ? "Description is required" : null,
+      image: (value) => (value === null ? "Image is required" : null),
     },
   });
 
@@ -267,6 +273,37 @@ const ManageCategories: React.FC = () => {
         deleteCategoryMutation.mutate(id);
       },
     });
+
+  const [addFormImage, setAddFormImage] = useState<FileWithPath[]>([]);
+  const addFormImagePreview = addFormImage.map((image, index) => {
+    const imageUrl = URL.createObjectURL(image);
+    return (
+      <Image
+        key={index}
+        src={imageUrl}
+        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
+        width={100}
+        height={100}
+        fit="cover"
+      />
+    );
+  });
+
+  const [editFormImage, setEditFormImage] = useState<FileWithPath[]>([]);
+  const [oldImage, setOldImage] = useState<string>("");
+  const editFormImagePreview = editFormImage.map((image, index) => {
+    const imageUrl = URL.createObjectURL(image);
+    return (
+      <Image
+        key={index}
+        src={imageUrl}
+        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
+        width={100}
+        height={100}
+        fit="cover"
+      />
+    );
+  });
 
   const rows = sortedCategories.map((category) => (
     <tr key={category._id}>
@@ -293,7 +330,9 @@ const ManageCategories: React.FC = () => {
                   id: category.id,
                   name: category.name,
                   description: category.description,
+                  image: {} as FileWithPath,
                 });
+                setOldImage(category.image);
                 setEditModalOpen(true);
               }}
             >
@@ -322,6 +361,7 @@ const ManageCategories: React.FC = () => {
         onClose={() => {
           categoryAddForm.reset();
           setAddModalOpen(false);
+          setAddFormImage([]);
         }}
         title="Add Category"
         size="md"
@@ -346,10 +386,46 @@ const ManageCategories: React.FC = () => {
             required
             rows={3}
           />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box w="30%" h="100px" mt={10}>
+              {addFormImage.length === 0 && (
+                <Image
+                  src={null}
+                  alt="empty image"
+                  width={100}
+                  height={100}
+                  withPlaceholder
+                />
+              )}
+              {addFormImagePreview}
+            </Box>
+            <Dropzone
+              accept={IMAGE_MIME_TYPE}
+              onDrop={(acceptedFiles) => {
+                setAddFormImage(acceptedFiles);
+                categoryAddForm.setFieldValue("image", acceptedFiles[0]);
+              }}
+              maxFiles={1}
+              mt={10}
+              w="70%"
+              h="100px"
+            >
+              <Text align="center" mt={20} c="gray">
+                Drop images here
+              </Text>
+            </Dropzone>
+          </Box>
           <Button
             color="teal"
             sx={{ marginTop: "10px", width: "100%" }}
             type="submit"
+            disabled={addFormImage.length === 0}
           >
             Add Category
           </Button>
@@ -360,6 +436,7 @@ const ManageCategories: React.FC = () => {
         onClose={() => {
           categoryEditForm.reset();
           setEditModalOpen(false);
+          setEditFormImage([]);
         }}
         title={
           `Edit Category: ${categoryEditForm.values.name} (${categoryEditForm.values.id})` ||
@@ -387,6 +464,40 @@ const ManageCategories: React.FC = () => {
             required
             rows={3}
           />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box w="30%" h="100px" mt={10}>
+              {editFormImage.length === 0 && (
+                <Image
+                  src={oldImage}
+                  alt={categoryEditForm.values.name}
+                  width={100}
+                  height={100}
+                />
+              )}
+              {editFormImagePreview}
+            </Box>
+            <Dropzone
+              accept={IMAGE_MIME_TYPE}
+              onDrop={(acceptedFiles) => {
+                setEditFormImage(acceptedFiles);
+                categoryEditForm.setFieldValue("image", acceptedFiles[0]);
+              }}
+              maxFiles={1}
+              mt={10}
+              w="70%"
+              h="100px"
+            >
+              <Text align="center" mt={20} c="gray">
+                Drop images here
+              </Text>
+            </Dropzone>
+          </Box>
           <Button
             color="teal"
             sx={{ marginTop: "10px", width: "100%" }}

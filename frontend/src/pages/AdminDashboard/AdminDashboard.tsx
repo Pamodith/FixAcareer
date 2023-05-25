@@ -1,11 +1,15 @@
 import { Container, createStyles, Tabs } from "@mantine/core";
 import { DashboardHeader, Footer } from "../../layout";
 import { useNavigate, useParams } from "react-router-dom";
-import { ManageCategories } from "../../features";
-import { Category } from "../../interfaces";
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { CategoryService } from "../../services";
+import {
+  ManageCategories,
+  ManageJobs,
+  ManageRoadmaps,
+  ManageQuizQuestions,
+  QuizSettings,
+  ManageAdministrators,
+  AdminSettings,
+} from "../../features";
 
 const useStyles = createStyles((theme) => ({
   tabs: {
@@ -90,12 +94,24 @@ const AdminDashboard: React.FC = () => {
           <Tabs.Panel value="categories">
             <ManageCategories />
           </Tabs.Panel>
-          <Tabs.Panel value="jobs">Jobs</Tabs.Panel>
-          <Tabs.Panel value="roadmaps">Roadmaps</Tabs.Panel>
-          <Tabs.Panel value="quiz-questions">Quiz Questions</Tabs.Panel>
-          <Tabs.Panel value="quiz-settings">Quiz Settings</Tabs.Panel>
-          <Tabs.Panel value="administrators">Administrators</Tabs.Panel>
-          <Tabs.Panel value="settings">Settings</Tabs.Panel>
+          <Tabs.Panel value="jobs">
+            <ManageJobs />
+          </Tabs.Panel>
+          <Tabs.Panel value="roadmaps">
+            <ManageRoadmaps />
+          </Tabs.Panel>
+          <Tabs.Panel value="quiz-questions">
+            <ManageQuizQuestions />
+          </Tabs.Panel>
+          <Tabs.Panel value="quiz-settings">
+            <QuizSettings />
+          </Tabs.Panel>
+          <Tabs.Panel value="administrators">
+            <ManageAdministrators />
+          </Tabs.Panel>
+          <Tabs.Panel value="settings">
+            <AdminSettings />
+          </Tabs.Panel>
         </Tabs>
       </Container>
       <Footer />

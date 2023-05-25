@@ -31,6 +31,10 @@ const CategorySchema = new Schema(
       ref: 'Admin',
       required: true,
     },
+    image: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

@@ -15,10 +15,11 @@ const getCategories = async () => {
 //create category
 const createCategory = async (categoryData: CategoryBasic) => {
   const adminId = getCurrentAdminId();
-  const payload = {
-    ...categoryData,
-    addedBy: adminId,
-  };
+  const payload = new FormData();
+  payload.append("name", categoryData.name);
+  payload.append("description", categoryData.description);
+  payload.append("image", categoryData.image);
+  payload.append("addedBy", adminId);
   const response = await axios.post(`${BASE_URL}/`, payload, requestConfigJson);
   return response.data.data;
 };
@@ -26,11 +27,11 @@ const createCategory = async (categoryData: CategoryBasic) => {
 //update category
 const updateCategory = async (categoryData: CategoryUpdate) => {
   const adminId = getCurrentAdminId();
-  const payload = {
-    name: categoryData.name,
-    description: categoryData.description,
-    lastUpdatedBy: adminId,
-  };
+  const payload = new FormData();
+  payload.append("name", categoryData.name);
+  payload.append("description", categoryData.description);
+  payload.append("image", categoryData.image);
+  payload.append("lastUpdatedBy", adminId);
   const response = await axios.put(
     `${BASE_URL}/${categoryData._id}`,
     payload,

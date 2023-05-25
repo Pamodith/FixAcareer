@@ -1,5 +1,5 @@
-import { Category } from "../interfaces";
-import { filterCategories } from "./filter";
+import { Category, Job } from "../interfaces";
+import { filterCategories, filterJobs } from "./filter";
 
 export const sortCategories = (
   data: Category[],
@@ -12,6 +12,28 @@ export const sortCategories = (
   }
 
   return filterCategories(
+    [...data].sort((a, b) => {
+      if (payload.reversed) {
+        return b[sortBy].localeCompare(a[sortBy]);
+      }
+
+      return a[sortBy].localeCompare(b[sortBy]);
+    }),
+    payload.search
+  );
+};
+
+export const sortJobs = (
+  data: Job[],
+  payload: { sortBy: keyof Job | null; reversed: boolean; search: string }
+) => {
+  const { sortBy } = payload;
+
+  if (!sortBy) {
+    return filterJobs(data, payload.search);
+  }
+
+  return filterJobs(
     [...data].sort((a, b) => {
       if (payload.reversed) {
         return b[sortBy].localeCompare(a[sortBy]);

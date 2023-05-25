@@ -36,6 +36,10 @@ const JobSchema = new Schema(
       ref: 'Admin',
       required: false,
     },
+    image: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,
