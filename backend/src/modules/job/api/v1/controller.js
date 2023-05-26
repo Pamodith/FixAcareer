@@ -1,6 +1,8 @@
 import express from 'express'
 import { tracedAsyncHandler } from '@sliit-foss/functions'
+import formidable from 'formidable'
 import { toSuccess, toError } from '../../../../utils'
+import ImageService from '../../../../cloudinary/image.service'
 import JobService from './service/job.service'
 
 const job = express.Router()
@@ -15,7 +17,25 @@ job.get(
 job.post(
   '/',
   tracedAsyncHandler(async function insertJob(req, res) {
-    await JobService.insertJob(req.body)
+    const form = formidable({ multiples: true })
+    const job = await new Promise((resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) {
+          reject(err)
+        }
+        resolve({ fields, files })
+      })
+    })
+    if (job.files.image) {
+      await ImageService.uploadImage(job.files.image.filepath, 'job')
+        .then((data) => {
+          job.fields.image = data.secure_url
+        })
+        .catch((err) => {
+          return toError({ res, message: err.message })
+        })
+    }
+    await JobService.insertJob(job.fields)
       .then((data) => {
         return toSuccess({ res, status: 201, data, message: 'Success' })
       })
@@ -54,7 +74,30 @@ job.get(
 job.put(
   '/:id',
   tracedAsyncHandler(async function updateJobById(req, res) {
-    await JobService.updateJobById(req.params.id, req.body)
+    const form = formidable({ multiples: true })
+    const job = await new Promise((resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) {
+          reject(err)
+        }
+        resolve({ fields, files })
+      })
+    })
+    const jobToUpdate = {
+      name: job.fields.name,
+      description: job.fields.description,
+      lastUpdatedBy: job.fields.lastUpdatedBy,
+    }
+    if (job.files.image) {
+      await ImageService.uploadImage(job.files.image.filepath, 'job')
+        .then((data) => {
+          jobToUpdate.image = data.secure_url
+        })
+        .catch((err) => {
+          return toError({ res, message: err.message })
+        })
+    }
+    await JobService.updateJobById(req.params.id, jobToUpdate)
       .then((data) => {
         return toSuccess({ res, status: 200, data, message: 'Success' })
       })

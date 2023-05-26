@@ -3,8 +3,8 @@ import Job from '../models/job.model'
 
 const logger = moduleLogger('Job-Repository')
 
-const createJob = async (job) => {
-  return await Job.create(job)
+const createJob = async (jobObj) => {
+  return await Job.create(jobObj)
     .then(async (result) => {
       await result.save()
       logger.info(`Job created successfully - id: ${result.id}`)

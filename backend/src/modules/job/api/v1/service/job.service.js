@@ -1,7 +1,6 @@
 import { moduleLogger } from '@sliit-foss/module-logger'
 import JobRepository from '../repository/job.repository'
 import AdminRepository from '../../../../admin/api/v1/repository/admin.repository'
-import CategoryRepository from '../../../../category/api/v1/repository/category.repository'
 
 const logger = moduleLogger('Job-Service')
 
@@ -19,16 +18,15 @@ const generateJobId = async () => {
 const insertJob = async (job) => {
   job.id = await generateJobId()
   job.lastUpdatedBy = job.addedBy
-  return await JobRepository.insertJob(job)
+  return await JobRepository.createJob(job)
     .then(async (result) => {
-      const category = await CategoryRepository.getCategoryById(job.category)
       const admin = await AdminRepository.getAdminById(job.addedBy)
       const response = {
         _id: result._id,
         id: result.id,
         title: result.title,
         description: result.description,
-        category: category.name,
+        category: result.category,
         isDeleted: result.isDeleted,
         addedBy: `${admin.firstName} ${admin.lastName}`,
         lastUpdatedBy: `${admin.firstName} ${admin.lastName}`,
@@ -46,15 +44,8 @@ const insertJob = async (job) => {
 const getJobs = async () => {
   return await JobRepository.getJobs()
     .then(async (result) => {
-      const categories = await CategoryRepository.getCategories()
       const admins = await AdminRepository.getAdmins()
       result.forEach((job) => {
-        const category = categories.find((cat) => cat._id.toString() === job.category.toString())
-        if (category) {
-          job.category = category.name
-        } else {
-          job.category = 'Unknown'
-        }
         const addedAdmin = admins.find((admin) => admin._id.toString() === job.addedBy.toString())
         if (addedAdmin) {
           job.addedBy = `${addedAdmin.firstName} ${addedAdmin.lastName}`
@@ -97,14 +88,13 @@ const updateJobById = async (id, job) => {
   }
   return await JobRepository.updateJobById(id, job)
     .then(async (result) => {
-      const category = await CategoryRepository.getCategoryById(job.category)
       const admin = await AdminRepository.getAdminById(job.lastUpdatedBy)
       const response = {
         _id: result._id,
         id: result.id,
         title: result.title,
         description: result.description,
-        category: category.name,
+        category: result.category,
         isDeleted: result.isDeleted,
         addedBy: jobToUpdate.addedBy,
         lastUpdatedBy: `${admin.firstName} ${admin.lastName}`,

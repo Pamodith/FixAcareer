@@ -9,7 +9,7 @@ const BASE_URL = import.meta.env.VITE_REACT_APP_API_BASE_URL + "/job";
 // Get all jobs
 const getJobs = async () => {
   const response = await axios.get(BASE_URL, requestConfig);
-  return response.data;
+  return response.data.data;
 };
 
 // Create a new job
@@ -22,7 +22,7 @@ const createJob = async (job: JobBasic) => {
   payload.append("image", job.image);
   payload.append("addedBy", adminId);
   const response = await axios.post(BASE_URL, payload, requestConfigJson);
-  return response.data;
+  return response.data.data;
 };
 
 // Update a job
@@ -39,13 +39,13 @@ const updateJob = async (job: JobUpdate) => {
     payload,
     requestConfigJson
   );
-  return response.data;
+  return response.data.data;
 };
 
 // Delete a job
 const deleteJob = async (id: string) => {
   const response = await axios.delete(`${BASE_URL}/${id}`, requestConfig);
-  return response.data;
+  return response.data.data;
 };
 
 const JobService = {

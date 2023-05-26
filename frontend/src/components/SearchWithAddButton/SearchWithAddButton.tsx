@@ -37,6 +37,7 @@ const SearchWithAddButton: React.FC<SearchWithAddButtonProps> = ({
         sx={{ width: "200px" }}
         onClick={() => setAddModalOpen(true)}
         rightIcon={<IconPlus size={18} />}
+        mb="md"
       >
         {addButtonText}
       </Button>
