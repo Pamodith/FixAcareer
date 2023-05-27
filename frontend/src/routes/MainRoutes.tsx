@@ -1,5 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AdminDashboard, Home, IQTest, UserHome } from "../pages";
+import {
+  AdminDashboard,
+  Home,
+  IQTest,
+  JobCategories,
+  UserHome,
+} from "../pages";
 import { AdminLogin, Logout, UserLogin } from "../features";
 import AdminPrivateRoute from "./AdminPrivateRoute";
 import UserPrivateRoute from "./UserPrivateRoute";
@@ -24,6 +30,7 @@ const MainRoutes = () => {
         <Route path="/user" element={<UserPrivateRoute />}>
           <Route path="/user" element={<UserHome />} />
           <Route path="/user/iq-test" element={<IQTest />} />
+          <Route path="/user/job-categories" element={<JobCategories />} />
         </Route>
       </Routes>
     </Router>

@@ -13,8 +13,8 @@ const useStyles = createStyles((theme) => ({
   card: {
     backgroundColor:
       theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
-    width: 400,
-    height: 500,
+    width: 350,
+    height: 430,
     marginBottom: theme.spacing.md,
     marginRight: theme.spacing.md,
     marginLeft: theme.spacing.md,
