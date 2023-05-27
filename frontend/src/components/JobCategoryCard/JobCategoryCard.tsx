@@ -8,6 +8,7 @@ import {
   rem,
 } from "@mantine/core";
 import { Category } from "../../interfaces";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -41,6 +42,7 @@ interface JobCategoryCardProps {
 }
 
 const JobCategoryCard: React.FC<JobCategoryCardProps> = ({ category }) => {
+  const navigate = useNavigate();
   const { classes } = useStyles();
   return (
     <Card withBorder radius="md" p="md" className={classes.card}>
@@ -73,7 +75,7 @@ const JobCategoryCard: React.FC<JobCategoryCardProps> = ({ category }) => {
           radius="md"
           style={{ flex: 1 }}
           onClick={() => {
-            return;
+            navigate(`/user/jobs/${category._id}`);
           }}
         >
           View Job Titles

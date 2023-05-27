@@ -4,6 +4,7 @@ import {
   Home,
   IQTest,
   JobCategories,
+  Jobs,
   UserHome,
 } from "../pages";
 import { AdminLogin, Logout, UserLogin } from "../features";
@@ -31,6 +32,8 @@ const MainRoutes = () => {
           <Route path="/user" element={<UserHome />} />
           <Route path="/user/iq-test" element={<IQTest />} />
           <Route path="/user/job-categories" element={<JobCategories />} />
+          <Route path="/user/jobs" element={<Jobs />} />
+          <Route path="/user/jobs/:catId" element={<Jobs />} />
         </Route>
       </Routes>
     </Router>

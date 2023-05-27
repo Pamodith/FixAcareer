@@ -120,4 +120,17 @@ job.delete(
   }),
 )
 
+job.get(
+  '/category/:id',
+  tracedAsyncHandler(async function getJobsByCategoryId(req, res) {
+    await JobService.getJobsByCategory(req.params.id)
+      .then((data) => {
+        return toSuccess({ res, status: 200, data, message: 'Success' })
+      })
+      .catch((err) => {
+        return toError({ res, message: err.message })
+      })
+  }),
+)
+
 export default job

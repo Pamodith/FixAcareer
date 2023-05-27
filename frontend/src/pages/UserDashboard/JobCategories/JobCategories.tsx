@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Category } from "../../../interfaces";
 import { UserHeaderMenu } from "../../../layout";
 import { Box, Grid, LoadingOverlay, TextInput } from "@mantine/core";
@@ -44,6 +44,19 @@ const JobCategories: React.FC = () => {
     }
   );
 
+  useEffect(() => {
+    if (isLoading) {
+      notifications.show({
+        id: "loading-categories",
+        loading: true,
+        title: "Loading Categories",
+        message: "Please wait while we load all the categories",
+        autoClose: false,
+        withCloseButton: false,
+      });
+    }
+  }, [isLoading]);
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (categories === undefined) return;
     const { value } = event.currentTarget;
@@ -75,7 +88,12 @@ const JobCategories: React.FC = () => {
             mt="lg"
             mb="lg"
           />
-          <Grid m={"auto"} w={"90%"} columns={3}>
+          <Grid m={"auto"} w={"90%"}>
+            {sortedCategories.length === 0 && (
+              <Box w="100%" ta="center" fw="bold" mt="lg" mb="lg">
+                No categories found
+              </Box>
+            )}
             {sortedCategories.map((category) => (
               <JobCategoryCard key={category.id} category={category} />
             ))}

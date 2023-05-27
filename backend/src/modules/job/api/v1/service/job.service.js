@@ -123,12 +123,39 @@ const deleteJobById = async (id) => {
     })
 }
 
+const getJobsByCategory = async (category) => {
+  return await JobRepository.getJobsByCategory(category)
+    .then(async (result) => {
+      const admins = await AdminRepository.getAdmins()
+      result.forEach((job) => {
+        const addedAdmin = admins.find((admin) => admin._id.toString() === job.addedBy.toString())
+        if (addedAdmin) {
+          job.addedBy = `${addedAdmin.firstName} ${addedAdmin.lastName}`
+        } else {
+          job.addedBy = 'Unknown'
+        }
+        const lastUpdatedAdmin = admins.find((admin) => admin._id.toString() === job.lastUpdatedBy.toString())
+        if (lastUpdatedAdmin) {
+          job.lastUpdatedBy = `${lastUpdatedAdmin.firstName} ${lastUpdatedAdmin.lastName}`
+        } else {
+          job.lastUpdatedBy = 'Unknown'
+        }
+      })
+      return result
+    })
+    .catch((err) => {
+      logger.error(`An error occurred when retrieving jobs by category - err: ${err.message}`)
+      throw err
+    })
+}
+
 const JobService = {
   insertJob,
   getJobs,
   getJobById,
   updateJobById,
   deleteJobById,
+  getJobsByCategory,
 }
 
 export default JobService

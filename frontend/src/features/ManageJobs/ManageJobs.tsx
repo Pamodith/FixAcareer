@@ -6,7 +6,7 @@ import { IconCheck, IconAlertTriangle } from "@tabler/icons-react";
 import { useQuery } from "react-query";
 import { sortJobs } from "../../utils";
 import { JobCard, SearchWithAddButton } from "../../components";
-import { Box, Grid, Image, SimpleGrid, Text } from "@mantine/core";
+import { Box, Grid, Text } from "@mantine/core";
 
 const ManageJobs: React.FC = () => {
   const [search, setSearch] = useState("");

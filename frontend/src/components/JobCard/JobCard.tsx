@@ -40,6 +40,14 @@ const useStyles = createStyles((theme) => ({
     marginLeft: theme.spacing.md,
   },
 
+  cardSimple: {
+    backgroundColor:
+      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+    width: 400,
+    height: 440,
+    margin: theme.spacing.md,
+  },
+
   section: {
     borderBottom: `${rem(1)} solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[3]
@@ -61,7 +69,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface JobCardProps {
-  mood?: "add" | "edit" | "view";
+  mood?: "add" | "edit" | "view" | "simple";
   categories?: Category[];
   job?: Job;
   setAddJob?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -77,7 +85,7 @@ const JobCard: React.FC<JobCardProps> = ({
 }) => {
   const queryClient = useQueryClient();
   const { classes } = useStyles();
-  const [moody, setMoody] = useState<"add" | "edit" | "view">(mood);
+  const [moody, setMoody] = useState<"add" | "edit" | "view" | "simple">(mood);
   const [isLoading, setIsLoading] = useState(false);
 
   const jobAddForm = useForm({
@@ -534,6 +542,51 @@ const JobCard: React.FC<JobCardProps> = ({
           >
             <IconTrash size="1.1rem" className={classes.delete} stroke={1.5} />
           </ActionIcon>
+        </Group>
+      </Card>
+    );
+  }
+
+  if (moody === "simple") {
+    return (
+      <Card withBorder radius="md" p="md" className={classes.cardSimple}>
+        <Card.Section>
+          <Image src={job.image} alt={job.title} width={"100%"} height={180} />
+        </Card.Section>
+
+        <Card.Section className={classes.section} mt="md">
+          <Group position="apart">
+            <Text fz="lg" fw={500}>
+              {job.title}
+            </Text>
+            <Badge size="md" miw={100}>
+              {
+                categories.find((category) => category._id === job.category)
+                  ?.name
+              }
+            </Badge>
+          </Group>
+          <Text
+            fz="sm"
+            mt="xs"
+            h={195}
+            style={{ overflow: "hidden", textAlign: "justify" }}
+            color="gray"
+          >
+            {job.description}
+          </Text>
+        </Card.Section>
+
+        <Group mt="xs">
+          <Button
+            radius="md"
+            style={{ flex: 1 }}
+            onClick={() => {
+              return;
+            }}
+          >
+            View Roadmap
+          </Button>
         </Group>
       </Card>
     );

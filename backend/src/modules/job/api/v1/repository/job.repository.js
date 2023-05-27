@@ -81,6 +81,19 @@ const getLastInsertedJob = async () => {
     })
 }
 
+const getJobsByCategory = async (category) => {
+  return await Job.find({ category: category })
+    .lean()
+    .then((result) => {
+      if (result) return result
+      else throw new Error('No jobs found')
+    })
+    .catch((err) => {
+      logger.error(`An error occurred when retrieving jobs - err: ${err.message}`)
+      throw err
+    })
+}
+
 const JobRepository = {
   createJob,
   getJobs,
@@ -88,6 +101,7 @@ const JobRepository = {
   updateJobById,
   deleteJobById,
   getLastInsertedJob,
+  getJobsByCategory,
 }
 
 export default JobRepository

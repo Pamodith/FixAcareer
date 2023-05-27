@@ -48,11 +48,18 @@ const deleteJob = async (id: string) => {
   return response.data.data;
 };
 
+//get job by category id
+const getJobsByCategory = async (id: string) => {
+  const response = await axios.get(`${BASE_URL}/category/${id}`, requestConfig);
+  return response.data.data;
+};
+
 const JobService = {
   getJobs,
   createJob,
   updateJob,
   deleteJob,
+  getJobsByCategory,
 };
 
 export default JobService;

@@ -37,6 +37,7 @@ const links: LinkItem[] = [
   { link: "/user", label: "Home" },
   { link: "/user/iq-test", label: "IQ Test" },
   { link: "/user/job-categories", label: "Job Categories" },
+  { link: "/user/jobs", label: "Jobs" },
   { link: "/about", label: "About" },
 ];
 
