@@ -34,9 +34,9 @@ interface CustomLinkProps {
 }
 
 const links: LinkItem[] = [
-  { link: "/home", label: "Home" },
-  { link: "/iq-test", label: "IQ Test" },
-  { link: "/job-categories", label: "Job Categories" },
+  { link: "/user", label: "Home" },
+  { link: "/user/iq-test", label: "IQ Test" },
+  { link: "/user/job-categories", label: "Job Categories" },
   { link: "/about", label: "About" },
 ];
 

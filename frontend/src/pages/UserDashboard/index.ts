@@ -1,3 +1,4 @@
 import UserHome from "./Home";
+import IQTest from "./IQTest";
 
-export default UserHome;
+export { UserHome, IQTest };

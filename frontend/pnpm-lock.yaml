@@ -84,9 +84,6 @@ dependencies:
     version: 2.1.0
 
 devDependencies:
-  '@previewjs/cli':
-    specifier: ^1.23.0
-    version: 1.23.0
   '@types/crypto-js':
     specifier: ^4.1.1
     version: 4.1.1
@@ -2539,12 +2536,6 @@ packages:
       webpack: 5.82.1
       webpack-dev-server: 4.15.0(webpack@5.82.1)
     dev: false
-
-  /@previewjs/cli@1.23.0:
-    resolution: {integrity: sha512-JNphCy6Utn0133TyI3+TFBCOPYo7NVyim90oCnMpDl27KVG/xNUzPoZnr61ztMKOn8EXUIX7Bjika7VE3CcZbg==}
-    engines: {node: ^v16.20.0}
-    hasBin: true
-    dev: true
 
   /@radix-ui/number@1.0.0:
     resolution: {integrity: sha512-Ofwh/1HX69ZfJRiRBMTy7rgjAzHmwe4kW9C9Y99HTRUcYLUuVT0KESFj15rPjRgKJs20GPq8Bm5aEDJ8DuA3vA==}
