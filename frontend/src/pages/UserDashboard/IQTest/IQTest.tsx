@@ -2,6 +2,7 @@ import { Hero } from "../../../components";
 import { UserHeaderMenu } from "../../../layout";
 import IQTESTBG from "../../../assets/iq-test-bg.jpg";
 import { Box } from "@mantine/core";
+import QuizApp from "../../../quiz";
 
 const IQTest = () => {
   return (
@@ -16,7 +17,9 @@ const IQTest = () => {
         buttonLabel={"Take the Test"}
         buttonLink={"#get-tarted"}
       />
-      <Box id="get-tarted" w="90%" p={20} m="auto"></Box>
+      <Box id="get-tarted" w="90%" p={20} m="auto">
+        <QuizApp />
+      </Box>
     </>
   );
 };
