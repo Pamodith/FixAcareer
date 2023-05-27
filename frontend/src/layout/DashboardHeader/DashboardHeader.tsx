@@ -79,7 +79,7 @@ const DashboardHeader: React.FC = () => {
         <Group position="apart">
           <Image
             src={logo}
-            alt="Tax Management System"
+            alt="FixAcareer"
             width={100}
             height={40}
             fit="contain"
