@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AdminDashboard, Home } from "../pages";
-import { AdminLogin, Logout } from "../features";
+import { AdminLogin, Logout, UserLogin } from "../features";
 import AdminPrivateRoute from "./AdminPrivateRoute";
 
 const MainRoutes = () => {
@@ -18,6 +18,8 @@ const MainRoutes = () => {
             element={<AdminDashboard />}
           />
         </Route>
+
+        <Route path="/user/login" element={<UserLogin />} />
       </Routes>
     </Router>
   );

@@ -7,6 +7,7 @@ import ManageQuizQuestions from "./ManageQuizQuestions";
 import QuizSettings from "./QuizSettings";
 import ManageAdministrators from "./ManageAdministrators";
 import AdminSettings from "./AdminSettings";
+import UserLogin from "./UserLogin";
 
 export {
   AdminLogin,
@@ -18,4 +19,5 @@ export {
   QuizSettings,
   ManageAdministrators,
   AdminSettings,
+  UserLogin,
 };

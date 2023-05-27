@@ -81,6 +81,16 @@ const deleteUserById = async (id) => {
     })
 }
 
+const getLastInsertedUser = async () => {
+  return await User.findOne({}, {}, { sort: { createdAt: -1 } })
+    .lean()
+    .then((result) => result)
+    .catch((err) => {
+      logger.error(`An error occurred when retrieving last inserted user - err: ${err.message}`)
+      throw err
+    })
+}
+
 const UserRepository = {
   createUser,
   getUsers,
@@ -88,6 +98,7 @@ const UserRepository = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  getLastInsertedUser,
 }
 
 export default UserRepository

@@ -25,14 +25,29 @@ const UserSchema = new Schema(
       type: String,
       required: false,
     },
-    phone: {
-      type: String,
-      required: false,
-      default: null,
-    },
     educationLevel: {
       type: String,
       required: true,
+    },
+    isEmployed: {
+      type: Boolean,
+      required: true,
+    },
+    currentJobTitle: {
+      type: String,
+      required: false,
+    },
+    stillStudying: {
+      type: Boolean,
+      required: true,
+    },
+    studyLevel: {
+      type: String,
+      required: false,
+    },
+    fieldOfStudy: {
+      type: String,
+      required: false,
     },
     isFirstLogin: {
       type: Boolean,
