@@ -108,7 +108,7 @@ const UserHome = () => {
           "Let's explore personalized career recommendations, access comprehensive job databases, and obtain your own career roadmap. Discover your strengths and interests by taking our IQ test, and let our system guide you towards your dream career."
         }
         buttonLabel={"Let's get started"}
-        buttonLink={"#get-tarted"}
+        buttonAction={"#get-tarted"}
       />
       <Box id="get-tarted" className={classes.wrapper}>
         <Box className={classes.body}>
