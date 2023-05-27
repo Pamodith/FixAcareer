@@ -21,7 +21,7 @@ import IMAGE from "../../assets/career-path.jpg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserService } from "../../services";
-import { notifications, showNotification } from "@mantine/notifications";
+import { notifications } from "@mantine/notifications";
 import { IconCheck, IconAlertTriangle } from "@tabler/icons-react";
 import sha256 from "crypto-js/sha256";
 
@@ -61,7 +61,7 @@ const UserLogin = () => {
       localStorage.getItem("role") === "user" &&
       JSON.parse(localStorage.getItem("user") || "{}").accessToken
     ) {
-      navigate("/user/dashboard");
+      navigate("/user");
     }
   }
   //set the page title
@@ -117,7 +117,7 @@ const UserLogin = () => {
         localStorage.setItem("user", JSON.stringify(user));
         setTimeout(() => {
           localStorage.setItem("role", "user");
-          navigate("/user/dashboard");
+          navigate("/user");
         }, 1000);
       })
       .catch(() => {
@@ -206,7 +206,7 @@ const UserLogin = () => {
       fieldOfStudy: values.fieldOfStudy,
     };
     UserService.userRegister(user)
-      .then(async (response) => {
+      .then(async () => {
         setRegisterStep(1);
         setIsRegistering(false);
         registerForm.reset();

@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AdminDashboard, Home } from "../pages";
+import { AdminDashboard, Home, UserHome } from "../pages";
 import { AdminLogin, Logout, UserLogin } from "../features";
 import AdminPrivateRoute from "./AdminPrivateRoute";
+import UserPrivateRoute from "./UserPrivateRoute";
 
 const MainRoutes = () => {
   return (
@@ -20,6 +21,9 @@ const MainRoutes = () => {
         </Route>
 
         <Route path="/user/login" element={<UserLogin />} />
+        <Route path="/user" element={<UserPrivateRoute />}>
+          <Route path="/user" element={<UserHome />} />
+        </Route>
       </Routes>
     </Router>
   );
