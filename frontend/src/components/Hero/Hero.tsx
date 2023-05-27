@@ -12,7 +12,7 @@ interface HeroProps {
   title: string;
   description: string;
   buttonLabel: string;
-  buttonLink: string;
+  buttonAction: string | (() => void);
 }
 
 const Hero = (props: HeroProps) => {
@@ -23,10 +23,12 @@ const Hero = (props: HeroProps) => {
       backgroundSize: "cover",
       backgroundPosition: "center",
       marginTop: -60,
+      height: "101vh",
     },
 
     container: {
-      height: 550,
+      height: 700,
+      marginLeft: 200,
       display: "flex",
       flexDirection: "column",
       justifyContent: "flex-end",
@@ -98,7 +100,11 @@ const Hero = (props: HeroProps) => {
           radius="xl"
           className={classes.control}
           onClick={() => {
-            window.location.href = props.buttonLink;
+            if (typeof props.buttonAction === "string") {
+              window.location.href = props.buttonAction;
+            } else {
+              props.buttonAction();
+            }
           }}
         >
           {props.buttonLabel}

@@ -1,25 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  Container,
-  Segment,
-  Item,
-  Dropdown,
-  Divider,
-  Button,
-  Message,
-  DropdownProps,
-} from "semantic-ui-react";
+import { Container, Segment, Item, Button, Message } from "semantic-ui-react";
 
 import mindImg from "../../images/mind.svg";
 
-import {
-  CATEGORIES,
-  NUM_OF_QUESTIONS,
-  DIFFICULTY,
-  QUESTIONS_TYPE,
-  COUNTDOWN_TIME,
-} from "../../constants";
 import { shuffle } from "../../utils";
 
 import Offline from "../Offline";
@@ -29,29 +13,18 @@ interface MainProps {
 }
 
 const Main: React.FC<MainProps> = ({ startQuiz }) => {
-  const [category, setCategory] = useState<string>("0");
-  const [numOfQuestions, setNumOfQuestions] = useState<number>(5);
-  const [difficulty, setDifficulty] = useState<string>("0");
-  const [questionsType, setQuestionsType] = useState<string>("0");
-  const [countdownTime, setCountdownTime] = useState<{
-    hours: number;
-    minutes: number;
-    seconds: number;
-  }>({
+  const category = "19";
+  const numOfQuestions = "10";
+  const difficulty = "0";
+  const questionsType = "0";
+  const countdownTime = {
     hours: 0,
-    minutes: 120,
-    seconds: 0,
-  });
+    minutes: 0,
+    seconds: 600,
+  };
   const [processing, setProcessing] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
   const [offline, setOffline] = useState<boolean>(false);
-
-  const handleTimeChange = (
-    e: React.SyntheticEvent<HTMLElement>,
-    { name, value }: DropdownProps
-  ) => {
-    setCountdownTime({ ...countdownTime, [name]: value });
-  };
 
   let allFieldsSelected = false;
   if (
@@ -125,12 +98,12 @@ const Main: React.FC<MainProps> = ({ startQuiz }) => {
   if (offline) return <Offline />;
 
   return (
-    <Container>
+    <Container style={{ marginTop: "50px" }}>
       <Segment>
         <Item.Group divided>
           <Item>
-            <Item.Image src={mindImg} />
-            <Item.Content>
+            <Item.Image size="medium" src={mindImg} />
+            <Item.Content style={{ margin: "auto" }}>
               <Item.Header>
                 <h1>FixAcareer IQ Test</h1>
               </Item.Header>
@@ -140,100 +113,20 @@ const Main: React.FC<MainProps> = ({ startQuiz }) => {
                   {error.message}
                 </Message>
               )}
-              <Divider />
-              <Item.Meta>
-                <Dropdown
-                  fluid
-                  selection
-                  name="category"
-                  placeholder="Select Quiz Category"
-                  header="Select Quiz Category"
-                  options={CATEGORIES}
-                  value={category}
-                  onChange={(e, { value }) => setCategory(value as string)}
-                  disabled={processing}
-                />
-                <br />
-                <Dropdown
-                  fluid
-                  selection
-                  name="numOfQ"
-                  placeholder="Select No. of Questions"
-                  header="Select No. of Questions"
-                  options={NUM_OF_QUESTIONS}
-                  value={numOfQuestions}
-                  onChange={(e, { value }) =>
-                    setNumOfQuestions(value as number)
-                  }
-                  disabled={processing}
-                />
-                <br />
-                <Dropdown
-                  fluid
-                  selection
-                  name="difficulty"
-                  placeholder="Select Difficulty Level"
-                  header="Select Difficulty Level"
-                  options={DIFFICULTY}
-                  value={difficulty}
-                  onChange={(e, { value }) => setDifficulty(value as string)}
-                  disabled={processing}
-                />
-                <br />
-                <Dropdown
-                  fluid
-                  selection
-                  name="type"
-                  placeholder="Select Questions Type"
-                  header="Select Questions Type"
-                  options={QUESTIONS_TYPE}
-                  value={questionsType}
-                  onChange={(e, { value }) => setQuestionsType(value as string)}
-                  disabled={processing}
-                />
-                <br />
-                <Dropdown
-                  search
-                  selection
-                  name="hours"
-                  placeholder="Select Hours"
-                  header="Select Hours"
-                  options={COUNTDOWN_TIME.hours}
-                  value={countdownTime.hours}
-                  onChange={handleTimeChange}
-                  disabled={processing}
-                />
-                <Dropdown
-                  search
-                  selection
-                  name="minutes"
-                  placeholder="Select Minutes"
-                  header="Select Minutes"
-                  options={COUNTDOWN_TIME.minutes}
-                  value={countdownTime.minutes}
-                  onChange={handleTimeChange}
-                  disabled={processing}
-                />
-                <Dropdown
-                  search
-                  selection
-                  name="seconds"
-                  placeholder="Select Seconds"
-                  header="Select Seconds"
-                  options={COUNTDOWN_TIME.seconds}
-                  value={countdownTime.seconds}
-                  onChange={handleTimeChange}
-                  disabled={processing}
-                />
-              </Item.Meta>
-              <Divider />
+              <Item.Description>
+                <p>
+                  This is a free IQ test meant to provide insight into your
+                  intelligence and personality. Results are accurate as we can
+                  make them, but should be taken as indication only.
+                </p>
+              </Item.Description>
               <Item.Extra>
                 <Button
                   primary
                   size="big"
                   icon="play"
                   labelPosition="left"
-                  content={processing ? "Processing..." : "Play Now"}
+                  content={processing ? "Processing..." : "Start Now"}
                   onClick={fetchData}
                   disabled={!allFieldsSelected || processing}
                 />

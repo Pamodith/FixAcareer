@@ -49,7 +49,7 @@ const Stats: React.FC<StatsProps> = ({
       <div style={{ marginTop: 35 }}>
         <Button
           primary
-          content="Play Again"
+          content="Retake Quiz"
           onClick={replayQuiz}
           size="big"
           icon="redo"
@@ -58,7 +58,7 @@ const Stats: React.FC<StatsProps> = ({
         />
         <Button
           color="teal"
-          content="Back to Home"
+          content="Back to beginning"
           onClick={resetQuiz}
           size="big"
           icon="home"
