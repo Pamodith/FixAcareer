@@ -1,4 +1,4 @@
-import { Container, createStyles, rem, Tabs } from "@mantine/core";
+import { Container, createStyles, Tabs } from "@mantine/core";
 import { DashboardHeader, Footer } from "../../layout";
 import { useNavigate, useParams } from "react-router-dom";
 import {
