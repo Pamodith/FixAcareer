@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   ManageCategories,
   ManageJobs,
-  ManageRoadmaps,
   ManageQuizQuestions,
   QuizSettings,
   ManageAdministrators,
@@ -60,7 +59,6 @@ const AdminDashboard: React.FC = () => {
     { label: "Dashboard", value: "stats" },
     { label: "Categories", value: "categories" },
     { label: "Jobs", value: "jobs" },
-    { label: "Roadmaps", value: "roadmaps" },
     { label: "Quiz Questions", value: "quiz-questions" },
     { label: "Quiz Settings", value: "quiz-settings" },
     { label: "Administrators", value: "administrators" },
@@ -96,9 +94,6 @@ const AdminDashboard: React.FC = () => {
           </Tabs.Panel>
           <Tabs.Panel value="jobs">
             <ManageJobs />
-          </Tabs.Panel>
-          <Tabs.Panel value="roadmaps">
-            <ManageRoadmaps />
           </Tabs.Panel>
           <Tabs.Panel value="quiz-questions">
             <ManageQuizQuestions />
