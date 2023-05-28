@@ -87,6 +87,7 @@ const JobView: React.FC = () => {
               buttonLabel={"Learn How to become a " + job?.title}
               buttonAction={"#get-started"}
             />
+            <Box id="get-started"></Box>
             <Box w="60%" ml="auto" mr="auto" mt={50}>
               <Stepper
                 active={active}
