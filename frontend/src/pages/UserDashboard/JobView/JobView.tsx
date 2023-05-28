@@ -13,10 +13,31 @@ import {
   List,
   LoadingOverlay,
   Stepper,
+  Title as MantineTitle,
   Text,
-  Title,
 } from "@mantine/core";
 import { Hero } from "../../../components";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const JobView: React.FC = () => {
   const { jobId } = useParams();
@@ -73,6 +94,99 @@ const JobView: React.FC = () => {
     }
   }, [isLoading]);
 
+  const labels = [
+    "2010",
+    "2011",
+    "2012",
+    "2013",
+    "2014",
+    "2015",
+    "2016",
+    "2017",
+    "2018",
+    "2019",
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+  ];
+
+  const jobChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: "Number of jobs in Sri Lanka",
+      },
+    },
+  };
+  const JobChartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Total Jobs",
+        data: [
+          2250, 2800, 2450, 5120, 6000, 7030, 8020, 9060, 9250, 9310, 9500,
+          10300, 12250, 14500,
+        ],
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        fill: false,
+      },
+    ],
+  };
+
+  const salaryChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        display: true,
+        text: "Average salary in Sri Lanka",
+      },
+    },
+  };
+  const salaryChartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Entry Level",
+        data: [
+          64000, 67000, 69000, 72000, 76000, 78000, 82000, 84000, 86000, 88000,
+          90000, 110000, 120000, 122000,
+        ],
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        fill: false,
+      },
+      {
+        label: "Mid Level",
+        data: [
+          80000, 83000, 86000, 89000, 92000, 95000, 98000, 101000, 99000, 97000,
+          120000, 150000, 180000, 210000,
+        ],
+        borderColor: "rgb(54, 162, 235)",
+        backgroundColor: "rgba(54, 162, 235, 0.5)",
+        fill: false,
+      },
+      {
+        label: "Senior Level",
+        data: [
+          115000, 120000, 125000, 122000, 118000, 124000, 130000, 135000,
+          140000, 136000, 210000, 260000, 321000, 330000,
+        ],
+        borderColor: "rgb(75, 192, 192)",
+        backgroundColor: "rgba(75, 192, 192, 0.5)",
+        fill: false,
+      },
+    ],
+  };
+
   return (
     <>
       <UserHeaderMenu />
@@ -88,6 +202,22 @@ const JobView: React.FC = () => {
               buttonAction={"#get-started"}
             />
             <Box id="get-started"></Box>
+            <MantineTitle order={2} align="center" mt={30}>
+              {job.title} Statistics
+            </MantineTitle>
+            <Box w="60%" ml="auto" mr="auto" mt={20}>
+              <Line data={JobChartData} options={jobChartOptions} />
+            </Box>
+            <Box w="60%" ml="auto" mr="auto" mt={50}>
+              <Line data={salaryChartData} options={salaryChartOptions} />
+            </Box>
+            <MantineTitle order={2} align="center" mt={50}>
+              How to become a {job.title}
+            </MantineTitle>
+            <Text align="center" mt={10} color="gray">
+              These steps are genereted based on the information provided by you
+              when you created your profile.
+            </Text>
             <Box w="60%" ml="auto" mr="auto" mt={50}>
               <Stepper
                 active={active}
@@ -101,7 +231,7 @@ const JobView: React.FC = () => {
                   label="Set clear goals and motivations"
                   description="Define your motivations and goals for becoming a software engineer."
                 >
-                  <Title order={3}>Step 1:</Title>
+                  <MantineTitle order={3}>Step 1:</MantineTitle>
                   <List type="ordered">
                     <List.Item>
                       Research the software engineering field and understand its
@@ -126,7 +256,7 @@ const JobView: React.FC = () => {
                   label="Develop foundational knowledge"
                   description="Learn the basics of computer science and programming languages."
                 >
-                  <Title order={3}>Step 2:</Title>
+                  <MantineTitle order={3}>Step 2:</MantineTitle>
                   <List type="ordered">
                     <List.Item>
                       Start by learning the fundamentals of computer science,
@@ -152,7 +282,7 @@ const JobView: React.FC = () => {
                   label="Pursue formal education"
                   description="Explore alternative educational paths, such as vocational courses or certifications."
                 >
-                  <Title order={3}>Step 3:</Title>
+                  <MantineTitle order={3}>Step 3:</MantineTitle>
                   <List type="ordered">
                     <List.Item>
                       Although you mentioned failing your A/L exams, consider
@@ -178,7 +308,7 @@ const JobView: React.FC = () => {
                   label="Build a strong programming skillset"
                   description="Practice coding regularly and work on small projects to enhance your skills."
                 >
-                  <Title order={3}>Step 4:</Title>
+                  <MantineTitle order={3}>Step 4:</MantineTitle>
                   <List type="ordered">
                     <List.Item>
                       Dedicate regular time to coding practice and personal
@@ -203,7 +333,7 @@ const JobView: React.FC = () => {
                   label="Create a portfolio"
                   description="Build a portfolio showcasing your projects and contributions."
                 >
-                  <Title order={3}>Step 5:</Title>
+                  <MantineTitle order={3}>Step 5:</MantineTitle>
                   <List type="ordered">
                     <List.Item>
                       Develop a portfolio website or online presence to showcase
@@ -228,7 +358,7 @@ const JobView: React.FC = () => {
                   label="Seek internships or entry-level positions"
                   description="Apply for internships or entry-level positions to gain practical experience."
                 >
-                  <Title order={3}>Step 6:</Title>
+                  <MantineTitle order={3}>Step 6:</MantineTitle>
                   <List type="ordered">
                     <List.Item>
                       Look for internships or entry-level positions at software
@@ -253,7 +383,7 @@ const JobView: React.FC = () => {
                   label="Continuously learn and grow"
                   description="Stay updated on the latest trends, technologies, and best practices."
                 >
-                  <Title order={3}>Step 7:</Title>
+                  <MantineTitle order={3}>Step 7:</MantineTitle>
                   <List type="ordered">
                     <List.Item>
                       Stay informed about the latest advancements in software
