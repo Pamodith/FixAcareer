@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Category } from "../../../interfaces";
 import { Footer, UserHeaderMenu } from "../../../layout";
-import { Box, Grid, LoadingOverlay, TextInput } from "@mantine/core";
+import { Box, Grid, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconAlertTriangle, IconSearch } from "@tabler/icons-react";
 import { useQuery } from "react-query";
@@ -74,7 +74,6 @@ const JobCategories: React.FC = () => {
     <>
       <UserHeaderMenu noHero />
       <Box>
-        <LoadingOverlay visible={isLoading} />
         <Box w={"90%"} m={"auto"}>
           <TextInput
             placeholder="Search by any field"

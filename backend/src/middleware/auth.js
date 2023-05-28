@@ -57,7 +57,7 @@ const protect = async (req, res, next) => {
     try {
       token = req.headers.authorization.split(' ')[1]
       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-      if (decoded.role !== 'user' || decoded.role !== 'admin') {
+      if (decoded.role !== 'user' && decoded.role !== 'admin') {
         return res.status(401).json({ message: 'Not authorized to access this route' })
       } else {
         if (decoded.role === 'user') {

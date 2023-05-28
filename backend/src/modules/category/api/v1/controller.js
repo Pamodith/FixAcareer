@@ -3,6 +3,7 @@ import { tracedAsyncHandler } from '@sliit-foss/functions'
 import formidable from 'formidable'
 import { toSuccess, toError } from '../../../../utils'
 import ImageService from '../../../../cloudinary/image.service'
+import auth from '../../../../middleware/auth'
 import CategoryService from './service/category.service'
 
 const category = express.Router()
@@ -16,6 +17,7 @@ category.get(
 
 category.post(
   '/',
+  auth.adminProtect,
   tracedAsyncHandler(async function insertCategory(req, res) {
     const form = formidable({ multiples: true })
     const category = await new Promise((resolve, reject) => {
@@ -47,6 +49,7 @@ category.post(
 
 category.get(
   '/',
+  auth.protect,
   tracedAsyncHandler(async function getCategories(_req, res) {
     await CategoryService.getCategories()
       .then((data) => {
@@ -60,6 +63,7 @@ category.get(
 
 category.get(
   '/:id',
+  auth.protect,
   tracedAsyncHandler(async function getCategoryById(req, res) {
     await CategoryService.getCategoryById(req.params.id)
       .then((data) => {
@@ -73,6 +77,7 @@ category.get(
 
 category.put(
   '/:id',
+  auth.adminProtect,
   tracedAsyncHandler(async function updateCategoryById(req, res) {
     const form = formidable({ multiples: true })
     const category = await new Promise((resolve, reject) => {
@@ -109,6 +114,7 @@ category.put(
 
 category.delete(
   '/:id',
+  auth.adminProtect,
   tracedAsyncHandler(async function deleteCategoryById(req, res) {
     await CategoryService.deleteCategoryById(req.params.id)
       .then((data) => {

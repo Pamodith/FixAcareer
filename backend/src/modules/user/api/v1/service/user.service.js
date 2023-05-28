@@ -43,6 +43,7 @@ const generateToken = (user) => {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
+    role: 'user',
   }
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
 }
@@ -54,6 +55,7 @@ const generateRefreshToken = (user) => {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
+    role: 'user',
   }
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '30d' })
 }

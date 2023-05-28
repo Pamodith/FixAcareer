@@ -18,7 +18,6 @@ import {
   TextInput,
   Select,
   Textarea,
-  LoadingOverlay,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Dropzone, IMAGE_MIME_TYPE, FileWithPath } from "@mantine/dropzone";
@@ -301,7 +300,6 @@ const JobCard: React.FC<JobCardProps> = ({
         pb="md"
         className={classes.card}
       >
-        <LoadingOverlay visible={isLoading} overlayBlur={2} />
         <form
           onSubmit={jobAddForm.onSubmit((values) =>
             addJobMutation.mutate(values)
@@ -384,7 +382,6 @@ const JobCard: React.FC<JobCardProps> = ({
   }
 
   if (moody === "edit") {
-    <LoadingOverlay visible={isLoading} overlayBlur={2} />;
     return (
       <Card
         withBorder

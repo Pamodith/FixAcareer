@@ -6,7 +6,7 @@ import { Job, Category } from "../../../interfaces";
 import { Footer, UserHeaderMenu } from "../../../layout";
 import { CategoryService, JobService } from "../../../services";
 import { sortJobs } from "../../../utils";
-import { Box, LoadingOverlay, TextInput } from "@mantine/core";
+import { Box, TextInput } from "@mantine/core";
 import { Grid } from "semantic-ui-react";
 import { JobCard } from "../../../components";
 import { useParams } from "react-router-dom";
@@ -85,7 +85,6 @@ const Jobs: React.FC = () => {
     <>
       <UserHeaderMenu noHero />
       <Box mb={20}>
-        <LoadingOverlay visible={isLoading} />
         <Box w={"90%"} m={"auto"}>
           <TextInput
             placeholder="Search by any field"

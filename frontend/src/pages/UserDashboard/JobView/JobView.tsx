@@ -11,7 +11,6 @@ import {
   Button,
   Group,
   List,
-  LoadingOverlay,
   Stepper,
   Title as MantineTitle,
   Text,
@@ -191,7 +190,6 @@ const JobView: React.FC = () => {
     <>
       <UserHeaderMenu />
       <Box>
-        <LoadingOverlay visible={isLoading} />
         {job && (
           <>
             <Hero

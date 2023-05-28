@@ -3,6 +3,7 @@ import { tracedAsyncHandler } from '@sliit-foss/functions'
 import formidable from 'formidable'
 import { toSuccess, toError } from '../../../../utils'
 import ImageService from '../../../../cloudinary/image.service'
+import auth from '../../../../middleware/auth'
 import JobService from './service/job.service'
 
 const job = express.Router()
@@ -16,6 +17,7 @@ job.get(
 
 job.post(
   '/',
+  auth.adminProtect,
   tracedAsyncHandler(async function insertJob(req, res) {
     const form = formidable({ multiples: true })
     const job = await new Promise((resolve, reject) => {
@@ -47,6 +49,7 @@ job.post(
 
 job.get(
   '/',
+  auth.protect,
   tracedAsyncHandler(async function getJobs(_req, res) {
     await JobService.getJobs()
       .then((data) => {
@@ -60,6 +63,7 @@ job.get(
 
 job.get(
   '/:id',
+  auth.protect,
   tracedAsyncHandler(async function getJobById(req, res) {
     await JobService.getJobById(req.params.id)
       .then((data) => {
@@ -73,6 +77,7 @@ job.get(
 
 job.put(
   '/:id',
+  auth.adminProtect,
   tracedAsyncHandler(async function updateJobById(req, res) {
     const form = formidable({ multiples: true })
     const job = await new Promise((resolve, reject) => {
@@ -109,6 +114,7 @@ job.put(
 
 job.delete(
   '/:id',
+  auth.adminProtect,
   tracedAsyncHandler(async function deleteJobById(req, res) {
     await JobService.deleteJobById(req.params.id)
       .then((data) => {
@@ -122,6 +128,7 @@ job.delete(
 
 job.get(
   '/category/:id',
+  auth.protect,
   tracedAsyncHandler(async function getJobsByCategoryId(req, res) {
     await JobService.getJobsByCategory(req.params.id)
       .then((data) => {

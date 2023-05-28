@@ -76,6 +76,7 @@ const generateToken = (admin) => {
     id: admin._id,
     email: admin.email,
     permissions: admin.permissions,
+    role: 'admin',
   }
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' })
 }
@@ -85,6 +86,7 @@ const generateRefreshToken = (admin) => {
     id: admin._id,
     email: admin.email,
     permissions: admin.permissions,
+    role: 'admin',
   }
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' })
 }
