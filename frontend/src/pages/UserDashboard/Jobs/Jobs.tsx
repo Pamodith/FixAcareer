@@ -3,12 +3,12 @@ import { IconCheck, IconAlertTriangle, IconSearch } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { Job, Category } from "../../../interfaces";
-import { UserHeaderMenu } from "../../../layout";
+import { Footer, UserHeaderMenu } from "../../../layout";
 import { CategoryService, JobService } from "../../../services";
 import { sortJobs } from "../../../utils";
 import { Box, LoadingOverlay, TextInput } from "@mantine/core";
 import { Grid } from "semantic-ui-react";
-import { JobCard, JobCategoryCard } from "../../../components";
+import { JobCard } from "../../../components";
 import { useParams } from "react-router-dom";
 
 const Jobs: React.FC = () => {
@@ -117,6 +117,7 @@ const Jobs: React.FC = () => {
           </Grid>
         </Box>
       </Box>
+      <Footer />
     </>
   );
 };

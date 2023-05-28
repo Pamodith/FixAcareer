@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Category } from "../../../interfaces";
-import { UserHeaderMenu } from "../../../layout";
+import { Footer, UserHeaderMenu } from "../../../layout";
 import { Box, Grid, LoadingOverlay, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconAlertTriangle, IconSearch } from "@tabler/icons-react";
@@ -100,6 +100,7 @@ const JobCategories: React.FC = () => {
           </Grid>
         </Box>
       </Box>
+      <Footer />
     </>
   );
 };

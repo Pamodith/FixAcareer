@@ -1,5 +1,5 @@
 import { Hero } from "../../../components";
-import { UserHeaderMenu } from "../../../layout";
+import { Footer, UserHeaderMenu } from "../../../layout";
 import IQTESTBG from "../../../assets/iq-test-bg.jpg";
 import { Box } from "@mantine/core";
 import QuizApp from "../../../quiz";
@@ -30,6 +30,7 @@ const IQTest = () => {
           <QuizApp />
         </Box>
       )}
+      <Footer />
     </>
   );
 };
