@@ -35,7 +35,7 @@ const useStyles = createStyles((theme) => ({
     backgroundColor:
       theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
     width: 400,
-    height: 500,
+    height: 485,
     marginBottom: theme.spacing.md,
     marginRight: theme.spacing.md,
     marginLeft: theme.spacing.md,
@@ -44,7 +44,7 @@ const useStyles = createStyles((theme) => ({
   cardSimple: {
     backgroundColor:
       theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
-    width: 400,
+    width: 350,
     height: 440,
     margin: theme.spacing.md,
   },
@@ -336,7 +336,7 @@ const JobCard: React.FC<JobCardProps> = ({
               </Text>
             </Dropzone>
           </Card.Section>
-          <Card.Section className={classes.section} mt="md" h={230}>
+          <Card.Section className={classes.section} mt="md" h={300}>
             <Group position="apart">
               <TextInput
                 placeholder="Title"
@@ -353,7 +353,7 @@ const JobCard: React.FC<JobCardProps> = ({
                   label: category.name,
                 }))}
                 size="sm"
-                w={130}
+                w={170}
                 {...jobAddForm.getInputProps("category")}
                 mb={jobAddForm.errors.title ? 20 : 0}
               />
@@ -365,8 +365,8 @@ const JobCard: React.FC<JobCardProps> = ({
               size="sm"
               mt="sm"
               autosize
-              minRows={6}
-              maxRows={6}
+              minRows={8}
+              maxRows={8}
             />
           </Card.Section>
           <Button
@@ -429,7 +429,7 @@ const JobCard: React.FC<JobCardProps> = ({
               </Text>
             </Dropzone>
           </Card.Section>
-          <Card.Section className={classes.section} mt="md" h={230}>
+          <Card.Section className={classes.section} mt="md" h={300}>
             <Group position="apart">
               <TextInput
                 placeholder="Title"
@@ -448,7 +448,7 @@ const JobCard: React.FC<JobCardProps> = ({
                   label: category.name,
                 }))}
                 size="sm"
-                w={130}
+                w={170}
                 value={jobEditForm.values.category}
                 defaultValue={jobEditForm.values.category}
                 mb={jobAddForm.errors.title ? 20 : 0}
@@ -461,8 +461,8 @@ const JobCard: React.FC<JobCardProps> = ({
               size="sm"
               mt="sm"
               autosize
-              minRows={6}
-              maxRows={6}
+              minRows={9}
+              maxRows={9}
               value={jobEditForm.values.description}
             />
           </Card.Section>
@@ -494,7 +494,7 @@ const JobCard: React.FC<JobCardProps> = ({
           <Image src={job.image} alt={job.title} width={"100%"} height={180} />
         </Card.Section>
 
-        <Card.Section className={classes.section} mt="md">
+        <Card.Section className={classes.section} mt="md" h={300}>
           <Group position="apart">
             <Text fz="lg" fw={500}>
               {job.title}

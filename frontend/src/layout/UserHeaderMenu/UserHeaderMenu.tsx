@@ -204,7 +204,7 @@ const UserHeaderMenu: React.FC<UserHeaderMenuProps> = ({ noHero }) => {
       className={classes.root}
       withBorder={noHero ? true : false}
     >
-      <Container className={classes.header}>
+      <Container className={classes.header} maw={"100%"}>
         <img src={LOGO} alt="logo" width="50" height="50" />
         <Group spacing={5} className={classes.links}>
           {items}

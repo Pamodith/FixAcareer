@@ -1,4 +1,4 @@
-import { Container, createStyles, Tabs } from "@mantine/core";
+import { Container, createStyles, rem, Tabs } from "@mantine/core";
 import { DashboardHeader, Footer } from "../../layout";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -74,7 +74,7 @@ const AdminDashboard: React.FC = () => {
   return (
     <>
       <DashboardHeader />
-      <Container>
+      <Container maw={1200}>
         <Tabs
           defaultValue="stats"
           value={tabValue || "stats"}

@@ -75,7 +75,7 @@ const DashboardHeader: React.FC = () => {
 
   return (
     <div className={classes.header}>
-      <Container className={classes.mainSection}>
+      <Container className={classes.mainSection} maw={1200}>
         <Group position="apart">
           <Image
             src={logo}

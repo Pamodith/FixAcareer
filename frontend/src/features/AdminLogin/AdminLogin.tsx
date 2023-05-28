@@ -246,7 +246,7 @@ const AdminLogin: React.FC = () => {
             Enter your credentials to access the Admin Dashboard
           </Text>
 
-          <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+          <Paper withBorder shadow="md" p={30} mt={30} radius="md" w={410}>
             <form onSubmit={form.onSubmit((values) => adminLogin(values))}>
               <TextInput
                 label="Email"
@@ -270,7 +270,7 @@ const AdminLogin: React.FC = () => {
                   Forgot password?
                 </Anchor>
               </Group>
-              <Box mt="md" mb="md" ml="25px">
+              <Box mt="md" mb="md">
                 <Reaptcha
                   sitekey="6LdsI54lAAAAAMuwi9HnGSp6Ny0fgqhjGH1I6HP1"
                   onVerify={() => {

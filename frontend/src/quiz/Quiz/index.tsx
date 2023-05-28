@@ -12,6 +12,7 @@ import {
   Header,
 } from "semantic-ui-react";
 import he from "he";
+import "./quiz.css";
 
 import Countdown from "../Countdown";
 import { getLetter } from "../../utils";

@@ -84,7 +84,7 @@ const Jobs: React.FC = () => {
   return (
     <>
       <UserHeaderMenu noHero />
-      <Box>
+      <Box mb={20}>
         <LoadingOverlay visible={isLoading} />
         <Box w={"90%"} m={"auto"}>
           <TextInput
