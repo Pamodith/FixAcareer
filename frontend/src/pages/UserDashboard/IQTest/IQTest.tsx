@@ -5,7 +5,7 @@ import { Box } from "@mantine/core";
 import QuizApp from "../../../quiz";
 import { useState } from "react";
 
-const IQTest = () => {
+const IQTest: React.FC = () => {
   const [takeTest, setTakeTest] = useState(false);
 
   const handleTakeTest = () => {

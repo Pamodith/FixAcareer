@@ -83,7 +83,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const Home = () => {
+const Home: React.FC = () => {
   //set the page title
   document.title = "FixAcareer - The ultimate career guidance platform";
   const { classes } = useStyles();

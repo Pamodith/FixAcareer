@@ -53,7 +53,7 @@ const educationLevels = [
   { value: "masters", label: "Masters" },
 ];
 
-const UserLogin = () => {
+const UserLogin: React.FC = () => {
   const navigate = useNavigate();
 
   if (localStorage.getItem("role")) {

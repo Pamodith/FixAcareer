@@ -4,6 +4,7 @@ import {
   Home,
   IQTest,
   JobCategories,
+  JobView,
   Jobs,
   UserHome,
 } from "../pages";
@@ -34,6 +35,7 @@ const MainRoutes = () => {
           <Route path="/user/job-categories" element={<JobCategories />} />
           <Route path="/user/jobs" element={<Jobs />} />
           <Route path="/user/jobs/:catId" element={<Jobs />} />
+          <Route path="/user/job/:jobId" element={<JobView />} />
         </Route>
       </Routes>
     </Router>

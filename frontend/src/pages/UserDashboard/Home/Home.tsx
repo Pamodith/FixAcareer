@@ -95,7 +95,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const UserHome = () => {
+const UserHome: React.FC = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   return (

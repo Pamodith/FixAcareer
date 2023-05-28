@@ -12,6 +12,12 @@ const getJobs = async () => {
   return response.data.data;
 };
 
+// Get a job by id
+const getJobById = async (id: string) => {
+  const response = await axios.get(`${BASE_URL}/${id}`, requestConfig);
+  return response.data.data;
+};
+
 // Create a new job
 const createJob = async (job: JobBasic) => {
   const adminId = getCurrentAdminId();
@@ -60,6 +66,7 @@ const JobService = {
   updateJob,
   deleteJob,
   getJobsByCategory,
+  getJobById,
 };
 
 export default JobService;

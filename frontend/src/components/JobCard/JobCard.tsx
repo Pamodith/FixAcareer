@@ -28,6 +28,7 @@ import { JobService } from "../../services";
 import { notifications } from "@mantine/notifications";
 import { useMutation, useQueryClient } from "react-query";
 import { openConfirmModal } from "@mantine/modals";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -87,6 +88,7 @@ const JobCard: React.FC<JobCardProps> = ({
   const { classes } = useStyles();
   const [moody, setMoody] = useState<"add" | "edit" | "view" | "simple">(mood);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const jobAddForm = useForm({
     validateInputOnChange: true,
@@ -582,7 +584,7 @@ const JobCard: React.FC<JobCardProps> = ({
             radius="md"
             style={{ flex: 1 }}
             onClick={() => {
-              return;
+              navigate(`/user/job/${job._id}`);
             }}
           >
             View Roadmap
