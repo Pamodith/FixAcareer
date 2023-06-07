@@ -121,32 +121,6 @@ admin.delete(
 )
 
 admin.get(
-  '/:id/permissions',
-  tracedAsyncHandler(async function getPermissionsByAdminId(req, res) {
-    await AdminService.getPermissionsByAdminId(req.params.id)
-      .then((data) => {
-        return toSuccess({ res, status: 200, data, message: 'Success' })
-      })
-      .catch((err) => {
-        return toError({ res, message: err.message })
-      })
-  }),
-)
-
-admin.put(
-  '/:id/permissions',
-  tracedAsyncHandler(async function updatePermissionsByAdminId(req, res) {
-    await AdminService.updatePermissionsByAdminId(req.params.id, req.body)
-      .then((data) => {
-        return toSuccess({ res, status: 200, data, message: 'Success' })
-      })
-      .catch((err) => {
-        return toError({ res, message: err.message })
-      })
-  }),
-)
-
-admin.get(
   '/:id/verification/status',
   tracedAsyncHandler(async function getTotpStatusById(req, res) {
     await AdminService.getTotpStatusById(req.params.id)

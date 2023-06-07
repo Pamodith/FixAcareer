@@ -15,7 +15,7 @@ interface HeroProps {
   buttonAction: string | (() => void);
 }
 
-const Hero = (props: HeroProps) => {
+const Hero: React.FC<HeroProps> = (props) => {
   const useStyles = createStyles((theme) => ({
     hero: {
       position: "relative",

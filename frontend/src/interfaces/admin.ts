@@ -4,3 +4,37 @@ export interface AdminDataLogin {
   email: string;
   role: string;
 }
+
+export interface Admin {
+  _id: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  email: string;
+  phone: string;
+  addedBy: string;
+  lastUpdatedBy: string;
+  isActive: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AdminBasic {
+  firstName: string;
+  lastName: string;
+  gender: string;
+  email: string;
+  phone: string;
+}
+
+export interface AdminUpdate {
+  _id: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  email: string;
+  phone: string;
+  isActive: boolean;
+}

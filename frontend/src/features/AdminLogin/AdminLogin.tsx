@@ -60,7 +60,10 @@ const AdminLogin: React.FC = () => {
 
     const encryptedPassword = sha256(values.password);
 
-    AdminLoginService.adminLogin(values.email, encryptedPassword.toString())
+    AdminLoginService.adminLogin(
+      values.email.toLowerCase(),
+      encryptedPassword.toString()
+    )
       .then(async (response) => {
         setAdminData({
           _id: response.data.data._id,

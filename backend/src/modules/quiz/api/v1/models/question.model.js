@@ -39,15 +39,6 @@ const QuestionSchema = new Schema(
       ref: 'Admin',
       required: false,
     },
-    maxAllowedTime: {
-      type: Number,
-      required: true,
-    },
-    difficulty: {
-      type: String,
-      enum: ['easy', 'medium', 'hard'],
-      required: true,
-    },
   },
   {
     timestamps: true,

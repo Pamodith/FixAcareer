@@ -75,7 +75,6 @@ const generateToken = (admin) => {
   const payload = {
     id: admin._id,
     email: admin.email,
-    permissions: admin.permissions,
     role: 'admin',
   }
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
@@ -85,7 +84,6 @@ const generateRefreshToken = (admin) => {
   const payload = {
     id: admin._id,
     email: admin.email,
-    permissions: admin.permissions,
     role: 'admin',
   }
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' })
@@ -151,7 +149,6 @@ const updateAdminById = async (id, admin) => {
     gender: admin.gender,
     email: admin.email,
     phone: admin.phone,
-    permissions: admin.permissions,
     lastUpdatedBy: admin.lastUpdatedBy,
   }
   return await AdminRepository.updateAdminById(id, updatedAdmin)
@@ -171,28 +168,6 @@ const deleteAdminById = async (id) => {
     })
     .catch((err) => {
       logger.error(`An error occurred when deleting admin by id - err: ${err.message}`)
-      throw err
-    })
-}
-
-const getPermissionsByAdminId = async (id) => {
-  return (await AdminRepository.getPermissionsByAdminId(id))
-    .then((data) => {
-      return data
-    })
-    .catch((err) => {
-      logger.error(`An error occurred when getting permissions by admin id - err: ${err.message}`)
-      throw err
-    })
-}
-
-const updatePermissionsByAdminId = async (id, permissions) => {
-  return (await AdminRepository.updatePermissionsByAdminId(id, permissions))
-    .then((data) => {
-      return data
-    })
-    .catch((err) => {
-      logger.error(`An error occurred when updating permissions by admin id - err: ${err.message}`)
       throw err
     })
 }
@@ -261,7 +236,6 @@ const verifyTOTPbyId = async (id, token) => {
         gender: admin.gender,
         email: admin.email,
         phone: admin.phone,
-        permissions: admin.permissions,
         avatar: admin.avatar,
         isFirstLogin: admin.isFirstLogin,
         accessToken,
@@ -306,8 +280,6 @@ const AdminService = {
   getAdminById,
   updateAdminById,
   deleteAdminById,
-  getPermissionsByAdminId,
-  updatePermissionsByAdminId,
   adminLogin,
   refreshToken,
   getTotpStatusById,

@@ -33,10 +33,6 @@ const AdminSchema = new Schema(
       type: String,
       required: false,
     },
-    permissions: {
-      type: [String],
-      default: [],
-    },
     addedBy: {
       type: Schema.Types.ObjectId,
       ref: 'Admin',

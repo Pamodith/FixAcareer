@@ -6,8 +6,8 @@ import {
   ManageJobs,
   ManageQuizQuestions,
   QuizSettings,
-  ManageAdministrators,
   AdminSettings,
+  ManageAdmins,
 } from "../../features";
 
 const useStyles = createStyles((theme) => ({
@@ -102,7 +102,7 @@ const AdminDashboard: React.FC = () => {
             <QuizSettings />
           </Tabs.Panel>
           <Tabs.Panel value="administrators">
-            <ManageAdministrators />
+            <ManageAdmins />
           </Tabs.Panel>
           <Tabs.Panel value="settings">
             <AdminSettings />

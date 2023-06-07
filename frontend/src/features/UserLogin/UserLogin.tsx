@@ -102,7 +102,10 @@ const UserLogin: React.FC = () => {
       withCloseButton: false,
     });
     const encryptedPassword = sha256(values.password);
-    UserService.userLogin(values.email, encryptedPassword.toString())
+    UserService.userLogin(
+      values.email.toLowerCase(),
+      encryptedPassword.toString()
+    )
       .then(async (response) => {
         notifications.update({
           id: "login-user",
@@ -196,7 +199,7 @@ const UserLogin: React.FC = () => {
     const user = {
       firstName: values.firstName,
       lastName: values.lastName,
-      email: values.email,
+      email: values.email.toLowerCase(),
       password: values.password,
       educationLevel: values.educationLevel,
       isEmployed: values.isEmployed,

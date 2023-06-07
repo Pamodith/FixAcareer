@@ -1,5 +1,5 @@
 import { keys } from "@mantine/utils";
-import { Category, Job } from "../interfaces";
+import { Admin, Category, Job } from "../interfaces";
 
 export const filterCategories = (data: Category[], search: string) => {
   const query = search.toLowerCase().trim();
@@ -18,3 +18,13 @@ export const filterJobs = (data: Job[], search: string) => {
     )
   );
 };
+
+//Filter Data
+export function filterAdmins(data: Admin[], search: string) {
+  const query = search.toLowerCase().trim();
+  return data.filter((item) =>
+    keys(data[0]).some((key) => {
+      return item[key].toString().toLowerCase().includes(query);
+    })
+  );
+}

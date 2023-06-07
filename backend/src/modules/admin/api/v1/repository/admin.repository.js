@@ -85,35 +85,6 @@ const deleteAdminById = async (id) => {
     })
 }
 
-const getPermissionsByAdminId = async (id) => {
-  return await Admin.findById(id)
-    .lean()
-    .then((result) => {
-      if (result) return result.permissions
-      else throw new Error(`Admin not found - id: ${id}`)
-    })
-    .catch((err) => {
-      logger.error(`An error occurred when retrieving admin - err: ${err.message}`)
-      throw err
-    })
-}
-
-const updatePermissionsByAdminId = async (id, permissions) => {
-  return await Admin.findById(id)
-    .lean()
-    .then(async (result) => {
-      if (result) {
-        result.permissions = permissions
-        await result.save()
-        return result
-      } else throw new Error(`Admin not found - id: ${id}`)
-    })
-    .catch((err) => {
-      logger.error(`An error occurred when retrieving admin - err: ${err.message}`)
-      throw err
-    })
-}
-
 const getLastInsertedAdmin = async () => {
   return await Admin.findOne()
     .sort({ _id: -1 })
@@ -135,8 +106,6 @@ const AdminRepository = {
   getAdminByEmail,
   updateAdminById,
   deleteAdminById,
-  getPermissionsByAdminId,
-  updatePermissionsByAdminId,
   getLastInsertedAdmin,
 }
 
