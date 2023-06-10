@@ -16,13 +16,11 @@ const adminProtect = async (req, res, next) => {
         next()
       }
     } catch (error) {
-      res.status(401)
-      req.handleResponse.unauthorizedRespond(res)('Not authorized to access this route')
+      res.status(401).json({ message: 'Not authorized to access this route' })
     }
   }
   if (!token) {
-    res.status(401)
-    req.handleResponse.unauthorizedRespond(res)('Not authorized to access this route')
+    res.status(401).json({ message: 'Not authorized to access this route' })
   }
 }
 
@@ -40,13 +38,11 @@ const userProtect = async (req, res, next) => {
         next()
       }
     } catch (error) {
-      res.status(401)
-      req.handleResponse.unauthorizedRespond(res)('Not authorized to access this route')
+      res.status(401).json({ message: 'Not authorized to access this route' })
     }
   }
   if (!token) {
-    res.status(401)
-    req.handleResponse.unauthorizedRespond(res)('Not authorized to access this route')
+    res.status(401).json({ message: 'Not authorized to access this route' })
   }
 }
 
