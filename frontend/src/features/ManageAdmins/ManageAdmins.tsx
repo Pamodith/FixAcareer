@@ -219,7 +219,7 @@ const ManageAdmins: React.FC = () => {
         withCloseButton: false,
       });
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries("admins");
       notifications.update({
         id: "delete-admin",
