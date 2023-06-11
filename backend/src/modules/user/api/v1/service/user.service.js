@@ -91,8 +91,8 @@ const userLogin = async (email, password) => {
   if (!isPasswordMatch) {
     throw new Error('Invalid credentials')
   }
-  const token = await generateToken(user)
-  const refreshToken = await generateRefreshToken(user)
+  const token = generateToken(user)
+  const refreshToken = generateRefreshToken(user)
   const userObj = {
     _id: user._id,
     id: user.id,

@@ -10,17 +10,17 @@ const adminProtect = async (req, res, next) => {
       token = req.headers.authorization.split(' ')[1]
       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
       if (decoded.role !== 'admin') {
-        return res.status(401).json({ message: 'Not authorized to access this route' })
+        return res.status(401).json({ message: 'Not authorized to access this route 1' })
       } else {
         req.admin = await Admin.findById(decoded._id).select('-password')
         next()
       }
     } catch (error) {
-      return res.status(401).json({ message: 'Not authorized to access this route' })
+      return res.status(401).json({ message: 'Not authorized to access this route 2' })
     }
   }
   if (!token) {
-    return res.status(401).json({ message: 'Not authorized to access this route' })
+    return res.status(401).json({ message: 'Not authorized to access this route 3' })
   }
 }
 
@@ -32,17 +32,17 @@ const userProtect = async (req, res, next) => {
       token = req.headers.authorization.split(' ')[1]
       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
       if (decoded.role !== 'user') {
-        return res.status(401).json({ message: 'Not authorized to access this route' })
+        return res.status(401).json({ message: 'Not authorized to access this route 1' })
       } else {
         req.student = await User.findById(decoded._id).select('-password')
         next()
       }
     } catch (error) {
-      return res.status(401).json({ message: 'Not authorized to access this route' })
+      return res.status(401).json({ message: 'Not authorized to access this route 2' })
     }
   }
   if (!token) {
-    return res.status(401).json({ message: 'Not authorized to access this route' })
+    return res.status(401).json({ message: 'Not authorized to access this route 3' })
   }
 }
 
@@ -54,7 +54,7 @@ const protect = async (req, res, next) => {
       token = req.headers.authorization.split(' ')[1]
       const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
       if (decoded.role !== 'user' && decoded.role !== 'admin') {
-        return res.status(401).json({ message: 'Not authorized to access this route' })
+        return res.status(401).json({ message: 'Not authorized to access this route 1' })
       } else {
         if (decoded.role === 'user') {
           req.student = await User.findById(decoded._id).select('-password')
@@ -64,11 +64,11 @@ const protect = async (req, res, next) => {
         next()
       }
     } catch (error) {
-      return res.status(401).json({ message: 'Not authorized to access this route' })
+      return res.status(401).json({ message: 'Not authorized to access this route 2' })
     }
   }
   if (!token) {
-    return res.status(401).json({ message: 'Not authorized to access this route' })
+    return res.status(401).json({ message: 'Not authorized to access this route 3' })
   }
 }
 

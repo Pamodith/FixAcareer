@@ -39,7 +39,7 @@ user.post(
   }),
 )
 
-user.post(
+user.get(
   '/:id',
   tracedAsyncHandler(async function getUserById(req, res) {
     await UserService.getUserById(req.params.id)
