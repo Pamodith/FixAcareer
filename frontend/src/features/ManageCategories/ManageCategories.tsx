@@ -513,7 +513,7 @@ const ManageCategories: React.FC = () => {
         searchValue={searchValue}
         handleSearchChange={handleSearchChange}
       />
-      <ScrollArea>
+      <ScrollArea mih={"65vh"}>
         <Table
           horizontalSpacing="md"
           verticalSpacing="xs"

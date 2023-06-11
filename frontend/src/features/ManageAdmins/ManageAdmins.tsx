@@ -521,7 +521,7 @@ const ManageAdmins: React.FC = () => {
           </Button>
         </form>
       </Modal>
-      <Box sx={{ margin: "20px", width: "100%" }}>
+      <Box sx={{ margin: "20px", width: "100%", minHeight: "65vh" }}>
         <Box
           sx={{
             display: "flex",

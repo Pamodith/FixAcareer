@@ -245,7 +245,6 @@ const AdminSettings: React.FC = () => {
     <Box
       sx={{
         width: "100%",
-        height: "100vh",
       }}
     >
       <Card shadow="sm" p="lg" radius="md" withBorder m="xs">
