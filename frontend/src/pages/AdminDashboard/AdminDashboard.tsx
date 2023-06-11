@@ -8,6 +8,7 @@ import {
   QuizSettings,
   AdminSettings,
   ManageAdmins,
+  AdminDashboardStats,
 } from "../../features";
 
 const useStyles = createStyles((theme) => ({
@@ -89,7 +90,9 @@ const AdminDashboard: React.FC = () => {
           }}
         >
           <Tabs.List>{items}</Tabs.List>
-          <Tabs.Panel value="stats">Dashboard</Tabs.Panel>
+          <Tabs.Panel value="stats">
+            <AdminDashboardStats />
+          </Tabs.Panel>
           <Tabs.Panel value="categories">
             <ManageCategories />
           </Tabs.Panel>
