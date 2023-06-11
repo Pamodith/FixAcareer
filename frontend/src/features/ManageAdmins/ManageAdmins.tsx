@@ -395,7 +395,11 @@ const ManageAdmins: React.FC = () => {
       >
         <form
           onSubmit={addForm.onSubmit((values) => {
-            addAdmin.mutate(values);
+            const newAdmin = {
+              ...values,
+              email: values.email.toLowerCase(),
+            };
+            addAdmin.mutate(newAdmin);
           })}
         >
           <TextInput
@@ -451,7 +455,11 @@ const ManageAdmins: React.FC = () => {
       >
         <form
           onSubmit={editForm.onSubmit((values) => {
-            editAdmin.mutate(values);
+            const newAdmin = {
+              ...values,
+              email: values.email.toLowerCase(),
+            };
+            editAdmin.mutate(newAdmin);
           })}
         >
           <input {...editForm.getInputProps("_id")} readOnly required hidden />
