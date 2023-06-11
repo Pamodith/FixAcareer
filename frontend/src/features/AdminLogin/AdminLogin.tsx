@@ -181,6 +181,8 @@ const AdminLogin: React.FC = () => {
             ...adminData,
             firstName: response.data.data.firstName,
             lastName: response.data.data.lastName,
+            phone: response.data.data.phone,
+            gender: response.data.data.gender,
             accessToken: response.data.data.accessToken,
             refreshToken: response.data.data.refreshToken,
           };

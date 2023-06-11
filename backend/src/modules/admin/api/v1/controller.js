@@ -12,7 +12,6 @@ const generatePassword = () => {
     numbers: true,
     uppercase: true,
     lowercase: true,
-    symbols: true,
     excludeSimilarCharacters: true,
   })
 }
@@ -150,6 +149,23 @@ admin.post(
   '/:id/verification/choose-method',
   tracedAsyncHandler(async function chooseTOTPMethod(req, res) {
     await AdminService.chooseTOTPMethod(req.params.id, req.body.method)
+      .then((data) => {
+        return toSuccess({ res, status: 200, data, message: 'Success' })
+      })
+      .catch((error) => {
+        return toError({ res, status: 400, message: error.message })
+      })
+  }),
+)
+
+admin.put(
+  '/:id/change-password',
+  tracedAsyncHandler(async function changePassword(req, res) {
+    const password = {
+      currentPassword: req.body.currentPassword,
+      newPassword: req.body.newPassword,
+    }
+    await AdminService.changePassword(req.params.id, password)
       .then((data) => {
         return toSuccess({ res, status: 200, data, message: 'Success' })
       })

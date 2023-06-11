@@ -59,8 +59,6 @@ const AdminDashboard: React.FC = () => {
     { label: "Dashboard", value: "stats" },
     { label: "Categories", value: "categories" },
     { label: "Jobs", value: "jobs" },
-    { label: "Quiz Questions", value: "quiz-questions" },
-    { label: "Quiz Settings", value: "quiz-settings" },
     { label: "Administrators", value: "administrators" },
     { label: "Admin Settings", value: "settings" },
   ];
@@ -97,12 +95,6 @@ const AdminDashboard: React.FC = () => {
           </Tabs.Panel>
           <Tabs.Panel value="jobs">
             <ManageJobs />
-          </Tabs.Panel>
-          <Tabs.Panel value="quiz-questions">
-            <ManageQuizQuestions />
-          </Tabs.Panel>
-          <Tabs.Panel value="quiz-settings">
-            <QuizSettings />
           </Tabs.Panel>
           <Tabs.Panel value="administrators">
             <ManageAdmins />

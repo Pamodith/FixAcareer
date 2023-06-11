@@ -274,6 +274,27 @@ const chooseTOTPMethod = async (id, method) => {
     })
 }
 
+const changePassword = async (id, password) => {
+  const admin = await AdminRepository.getAdminById(id)
+  const isMatch = await comparePassword(password.currentPassword, admin.password)
+  if (isMatch) {
+    const hashedPassword = await hashPassword(password.newPassword)
+    const updatedAdmin = {
+      password: hashedPassword,
+    }
+    return await AdminRepository.updateAdminById(id, updatedAdmin)
+      .then((data) => {
+        return data
+      })
+      .catch((err) => {
+        logger.error(`An error occurred when updating admin by id - err: ${err.message}`)
+        throw err
+      })
+  } else {
+    throw new Error('Invalid current password')
+  }
+}
+
 const AdminService = {
   insertAdmin,
   getAdmins,
@@ -285,6 +306,7 @@ const AdminService = {
   getTotpStatusById,
   verifyTOTPbyId,
   chooseTOTPMethod,
+  changePassword,
 }
 
 export default AdminService

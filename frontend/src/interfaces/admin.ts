@@ -38,3 +38,16 @@ export interface AdminUpdate {
   phone: string;
   isActive: boolean;
 }
+
+export interface AdminUpdateBasic {
+  firstName: string;
+  lastName: string;
+  gender: string;
+  email: string;
+  phone: string;
+}
+
+export interface ChangePassword {
+  currentPassword: string;
+  newPassword: string;
+}
