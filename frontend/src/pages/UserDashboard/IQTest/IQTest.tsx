@@ -6,6 +6,8 @@ import QuizApp from "../../../quiz";
 import { useState } from "react";
 
 const IQTest: React.FC = () => {
+  //set the page title - FixACareer
+  document.title = "IQ Test | FixACareer";
   const [takeTest, setTakeTest] = useState(false);
 
   const handleTakeTest = () => {

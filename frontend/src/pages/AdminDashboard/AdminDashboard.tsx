@@ -71,6 +71,9 @@ const AdminDashboard: React.FC = () => {
     </Tabs.Tab>
   ));
 
+  //set the page title - FixACareer
+  document.title = "Admin Dashboard | FixACareer";
+
   return (
     <>
       <DashboardHeader />

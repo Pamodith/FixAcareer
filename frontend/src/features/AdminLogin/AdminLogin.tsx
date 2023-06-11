@@ -230,7 +230,7 @@ const AdminLogin: React.FC = () => {
   });
 
   //set the page title
-  document.title = "Admin Login - Tuition Management System";
+  document.title = "Admin Login - FixACareer";
 
   return (
     <Container size={420} my={40}>

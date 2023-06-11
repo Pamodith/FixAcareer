@@ -10,6 +10,8 @@ import { sortCategories } from "../../../utils";
 import { JobCategoryCard } from "../../../components";
 
 const JobCategories: React.FC = () => {
+  //set the page title - FixACareer
+  document.title = "Job Categories | FixACareer";
   const [sortedCategories, setSortedCategories] = useState<Category[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const sortBy: keyof Category = "createdAt";

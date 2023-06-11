@@ -65,7 +65,7 @@ const UserLogin: React.FC = () => {
     }
   }
   //set the page title
-  document.title = "Log in to FixAcareer";
+  document.title = "Log in to FixAcareer | FixAcareer";
   const { classes } = useStyles();
   const [isRegstering, setIsRegistering] = useState(false);
   const [registerStep, setRegisterStep] = useState(1);

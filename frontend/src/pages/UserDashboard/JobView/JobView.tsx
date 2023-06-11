@@ -271,6 +271,11 @@ const JobView: React.FC = () => {
     ],
   };
 
+  //set the page title - FixACareer
+  useEffect(() => {
+    document.title = job?.title + " | FixACareer";
+  }, [job]);
+
   return (
     <>
       <UserHeaderMenu />

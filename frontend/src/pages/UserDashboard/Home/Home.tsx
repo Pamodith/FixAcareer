@@ -98,6 +98,8 @@ const useStyles = createStyles((theme) => ({
 const UserHome: React.FC = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
+  //set the page title - FixACareer
+  document.title = "FixACareer | The Ultimate Career Guidence Platform";
   return (
     <>
       <UserHeaderMenu />

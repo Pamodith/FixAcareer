@@ -12,6 +12,8 @@ import { JobCard } from "../../../components";
 import { useParams } from "react-router-dom";
 
 const Jobs: React.FC = () => {
+  //set the page title - FixACareer
+  document.title = "Jobs | FixACareer";
   const [search, setSearch] = useState("");
   const [sortedJobs, setSortedJobs] = useState<Job[]>([]);
   const sortBy: keyof Job = "createdAt";
