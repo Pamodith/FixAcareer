@@ -103,7 +103,7 @@ const Jobs: React.FC = () => {
           <Grid ml="auto" mr="auto" columns={3}>
             {sortedJobs.length === 0 && (
               <Box w="100%" ta="center" fw="bold" mt="lg" mb="lg">
-                No jobs found
+                {isLoading ? "Loading..." : "No jobs found"}
               </Box>
             )}
 

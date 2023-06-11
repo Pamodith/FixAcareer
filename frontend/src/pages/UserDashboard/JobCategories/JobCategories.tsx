@@ -92,7 +92,7 @@ const JobCategories: React.FC = () => {
           <Grid m={"auto"} w={"90%"}>
             {sortedCategories.length === 0 && (
               <Box w="100%" ta="center" fw="bold" mt="lg" mb="lg">
-                No categories found
+                {isLoading ? "Loading..." : "No categories found"}
               </Box>
             )}
             {sortedCategories.map((category) => (
