@@ -149,7 +149,7 @@ const ManageAdmins: React.FC = () => {
       queryClient.invalidateQueries("admins");
       setAddOpened(false);
       addForm.reset();
-      notifications.show({
+      notifications.update({
         id: "add-admin",
         color: "teal",
         title: "Admin added successfully",
@@ -159,7 +159,7 @@ const ManageAdmins: React.FC = () => {
       });
     },
     onError: (error: any) => {
-      notifications.show({
+      notifications.update({
         id: "add-admin",
         color: "red",
         title: "There was an error adding the admin",

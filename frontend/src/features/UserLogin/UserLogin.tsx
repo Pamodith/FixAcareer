@@ -387,6 +387,13 @@ const UserLogin: React.FC = () => {
                     mt={20}
                     mb={10}
                     onClick={() => setRegisterStep(2)}
+                    disabled={
+                      registerForm.values.firstName === "" ||
+                      registerForm.values.lastName === "" ||
+                      registerForm.values.email === "" ||
+                      registerForm.values.password === "" ||
+                      registerForm.values.confirmPassword === ""
+                    }
                   >
                     Next
                   </Button>
@@ -472,6 +479,7 @@ const UserLogin: React.FC = () => {
                     onClick={() => {
                       registerUser(registerForm.values);
                     }}
+                    disabled={registerForm.values.educationLevel === ""}
                   >
                     Register Now
                   </Button>
