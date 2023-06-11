@@ -1,11 +1,17 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import { Configuration, OpenAIApi } from 'openai'
 import { moduleLogger } from '@sliit-foss/module-logger'
 import UserEmailService from '../../../../../email/user.email'
 import UserRepository from '../repository/user.repository'
 import 'dotenv/config'
 
 const logger = moduleLogger('User-Service')
+
+const configuration = new Configuration({
+  apiKey: process.env.OPEN_AI_API_KEY,
+})
+const openai = new OpenAIApi(configuration)
 
 const generateId = async () => {
   const lastInsertedUser = await UserRepository.getLastInsertedUser()
@@ -58,6 +64,15 @@ const generateRefreshToken = (user) => {
     role: 'user',
   }
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '30d' })
+}
+
+const getPrompt = (user, jobRole) => {
+  const message = `Give me a 7-step roadmap to become a ${jobRole}.\nCurrent Education Level: ${user.educationLevel}\nIs Employed: ${user.isEmployed}\nCurrent Job Position: ${
+    user.currentJobTitle
+  }\nStill Studying: ${user.stillStudying}\nField of Study: ${user.fieldOfStudy}\nStudying Level: ${
+    user.studyLevel
+  }\nGive me the response as a JSON string.\nExample: {\n  "steps": [\n    {\n      "title": "small title",\n      "description": "small description",\n      "content": ["string array of content"]\n    }\n  ]\n}`
+  return message
 }
 
 const createUser = async (user) => {
@@ -117,10 +132,26 @@ const getUserById = async (id) => {
     })
 }
 
+const getRoadMapSteps = async (userid, jobRole) => {
+  try {
+    const user = await UserRepository.getUserById(userid)
+    const prompt = getPrompt(user, jobRole)
+    const completion = await openai.createChatCompletion({
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: prompt }],
+    })
+    return completion.data.choices[0].message
+  } catch (err) {
+    logger.error(`An error occurred when getting roadmap steps - err: ${err}`)
+    throw new Error('An error occurred when getting roadmap steps')
+  }
+}
+
 const UserService = {
   createUser,
   userLogin,
   getUserById,
+  getRoadMapSteps,
 }
 
 export default UserService

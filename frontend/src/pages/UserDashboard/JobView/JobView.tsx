@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Footer, UserHeaderMenu } from "../../../layout";
-import { JobService } from "../../../services";
+import { JobService, UserService } from "../../../services";
 import { useQuery } from "react-query";
-import { Job } from "../../../interfaces";
+import { Job, RoadmapResponse } from "../../../interfaces";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconAlertTriangle } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -14,6 +14,8 @@ import {
   Stepper,
   Title as MantineTitle,
   Text,
+  LoadingOverlay,
+  DEFAULT_THEME,
 } from "@mantine/core";
 import { Hero } from "../../../components";
 import {
@@ -27,6 +29,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { getCurrentUserId } from "../../../utils";
 
 ChartJS.register(
   CategoryScale,
@@ -38,6 +41,32 @@ ChartJS.register(
   Legend
 );
 
+const customLoader = (
+  <svg
+    width="54"
+    height="54"
+    viewBox="0 0 38 38"
+    xmlns="http://www.w3.org/2000/svg"
+    stroke={DEFAULT_THEME.colors.blue[6]}
+  >
+    <g fill="none" fillRule="evenodd">
+      <g transform="translate(1 1)" strokeWidth="2">
+        <circle strokeOpacity=".5" cx="18" cy="18" r="18" />
+        <path d="M36 18c0-9.94-8.06-18-18-18">
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            from="0 18 18"
+            to="360 18 18"
+            dur="1s"
+            repeatCount="indefinite"
+          />
+        </path>
+      </g>
+    </g>
+  </svg>
+);
+
 const JobView: React.FC = () => {
   const { jobId } = useParams();
   const navigate = useNavigate();
@@ -46,6 +75,9 @@ const JobView: React.FC = () => {
     setActive((current) => (current < 7 ? current + 1 : current));
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
+  const [isRoadMapLoading, setIsRoadMapLoading] = useState(false);
+  const [roadmapData, setRoadmapData] = useState<RoadmapResponse>();
+  const [isRoadMapLoaded, setIsRoadMapLoaded] = useState(false);
 
   if (!jobId) {
     navigate("/user/dashboard/jobs");
@@ -92,6 +124,59 @@ const JobView: React.FC = () => {
       });
     }
   }, [isLoading]);
+
+  //get roadmap data
+  const getRoadmapData = async (userId: string, jobRole: string) => {
+    setIsRoadMapLoading(true);
+    notifications.show({
+      id: "loading-roadmap",
+      loading: true,
+      title: "Loading roadmap",
+      message: "Please wait while we load roadmap",
+      autoClose: false,
+      withCloseButton: false,
+    });
+    UserService.getRoadmapsByUserIdAndJobTitle(userId, jobRole)
+      .then((res) => {
+        //convert string to json
+        const convertedRoadmapData = JSON.parse(res.data.data.content);
+        setRoadmapData(convertedRoadmapData);
+        setIsRoadMapLoaded(true);
+        notifications.update({
+          id: "loading-roadmap",
+          color: "teal",
+          title: "Success",
+          message: "Successfully loaded roadmap",
+          icon: <IconCheck size={14} />,
+          autoClose: 2000,
+        });
+        setIsRoadMapLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        notifications.update({
+          id: "loading-roadmap",
+          color: "red",
+          title: "Error",
+          message: "Error loading roadmap " + err,
+          icon: <IconAlertTriangle size={14} />,
+          autoClose: 2000,
+        });
+        setIsRoadMapLoading(false);
+      });
+  };
+
+  //get roadmap handler
+  const getRoadmapHandler = async () => {
+    if (job) {
+      //get user id
+      const userID = getCurrentUserId();
+      //get job role
+      const jobRole = job.title;
+      //get roadmap data
+      await getRoadmapData(userID, jobRole);
+    }
+  };
 
   const labels = [
     "2010",
@@ -192,251 +277,92 @@ const JobView: React.FC = () => {
       <Box>
         {job && (
           <>
+            <LoadingOverlay loader={customLoader} visible={isRoadMapLoading} />
             <Hero
               background={job.image}
               title={job.title}
               description={job.description}
               buttonLabel={"Learn How to become a " + job?.title}
-              buttonAction={"#get-started"}
+              buttonAction={getRoadmapHandler}
             />
-            <Box id="get-started"></Box>
-            <MantineTitle order={2} align="center" mt={30}>
-              {job.title} Statistics
-            </MantineTitle>
-            <Box w="60%" ml="auto" mr="auto" mt={20}>
-              <Line data={JobChartData} options={jobChartOptions} />
-            </Box>
-            <Box w="60%" ml="auto" mr="auto" mt={50}>
-              <Line data={salaryChartData} options={salaryChartOptions} />
-            </Box>
-            <MantineTitle order={2} align="center" mt={50}>
-              How to become a {job.title}
-            </MantineTitle>
-            <Text align="center" mt={10} color="gray">
-              These steps are genereted based on the information provided by you
-              when you created your profile.
-            </Text>
-            <Box w="60%" ml="auto" mr="auto" mt={50}>
-              <Stepper
-                active={active}
-                onStepClick={setActive}
-                orientation="vertical"
-                allowNextStepsSelect={false}
-                size="xl"
-                iconSize={80}
-              >
-                <Stepper.Step
-                  label="Set clear goals and motivations"
-                  description="Define your motivations and goals for becoming a software engineer."
-                >
-                  <MantineTitle order={3}>Step 1:</MantineTitle>
-                  <List type="ordered">
-                    <List.Item>
-                      Research the software engineering field and understand its
-                      various career paths and opportunities.
-                    </List.Item>
-                    <List.Item>
-                      Identify the specific areas of software engineering that
-                      interest you the most.
-                    </List.Item>
-                    <List.Item>
-                      Set clear and achievable goals for your career as a
-                      software engineer.
-                    </List.Item>
-                    <List.Item>
-                      Understand the skills and knowledge required to succeed in
-                      the field.
-                    </List.Item>
-                  </List>
-                </Stepper.Step>
+            {isRoadMapLoaded && (
+              <>
+                <Box id="get-started"></Box>
+                <MantineTitle order={2} align="center" mt={30}>
+                  {job.title} Statistics
+                </MantineTitle>
+                <Box w="60%" ml="auto" mr="auto" mt={20}>
+                  <Line data={JobChartData} options={jobChartOptions} />
+                </Box>
+                <Box w="60%" ml="auto" mr="auto" mt={50}>
+                  <Line data={salaryChartData} options={salaryChartOptions} />
+                </Box>
+                <MantineTitle order={2} align="center" mt={50}>
+                  How to become a {job.title}
+                </MantineTitle>
+                <Text align="center" mt={10} color="gray">
+                  These steps are genereted based on the information provided by
+                  you when you created your profile.
+                </Text>
+                <Box w="60%" ml="auto" mr="auto" mt={50}>
+                  <Stepper
+                    active={active}
+                    onStepClick={setActive}
+                    orientation="vertical"
+                    allowNextStepsSelect={false}
+                    size="xl"
+                    iconSize={80}
+                  >
+                    {roadmapData?.steps.map((step, index) => (
+                      <Stepper.Step
+                        key={index}
+                        label={step.title}
+                        description={step.description}
+                      >
+                        <MantineTitle order={3}>Step {index + 1}:</MantineTitle>
+                        <List type="ordered">
+                          {step.content.map((content, index) => (
+                            <List.Item key={index}>{content}</List.Item>
+                          ))}
+                        </List>
+                      </Stepper.Step>
+                    ))}
 
-                <Stepper.Step
-                  label="Develop foundational knowledge"
-                  description="Learn the basics of computer science and programming languages."
-                >
-                  <MantineTitle order={3}>Step 2:</MantineTitle>
-                  <List type="ordered">
-                    <List.Item>
-                      Start by learning the fundamentals of computer science,
-                      including algorithms, data structures, and software
-                      development methodologies.
-                    </List.Item>
-                    <List.Item>
-                      Choose a programming language to focus on and learn its
-                      syntax, concepts, and best practices.
-                    </List.Item>
-                    <List.Item>
-                      Practice coding exercises and challenges to reinforce your
-                      understanding of programming concepts.
-                    </List.Item>
-                    <List.Item>
-                      Explore online resources, tutorials, and courses to
-                      supplement your learning.
-                    </List.Item>
-                  </List>
-                </Stepper.Step>
-
-                <Stepper.Step
-                  label="Pursue formal education"
-                  description="Explore alternative educational paths, such as vocational courses or certifications."
-                >
-                  <MantineTitle order={3}>Step 3:</MantineTitle>
-                  <List type="ordered">
-                    <List.Item>
-                      Although you mentioned failing your A/L exams, consider
-                      alternative educational paths such as vocational courses,
-                      coding bootcamps, or online certifications.
-                    </List.Item>
-                    <List.Item>
-                      Research reputable institutions or online platforms that
-                      offer flexible learning options for software engineering.
-                    </List.Item>
-                    <List.Item>
-                      Look for programs that provide hands-on experience and
-                      practical projects to build your skills.
-                    </List.Item>
-                    <List.Item>
-                      Take advantage of any financial aid or scholarship
-                      opportunities that may be available.
-                    </List.Item>
-                  </List>
-                </Stepper.Step>
-
-                <Stepper.Step
-                  label="Build a strong programming skillset"
-                  description="Practice coding regularly and work on small projects to enhance your skills."
-                >
-                  <MantineTitle order={3}>Step 4:</MantineTitle>
-                  <List type="ordered">
-                    <List.Item>
-                      Dedicate regular time to coding practice and personal
-                      projects to improve your programming skills.
-                    </List.Item>
-                    <List.Item>
-                      Explore open-source projects and contribute to them to
-                      gain experience collaborating with others.
-                    </List.Item>
-                    <List.Item>
-                      Join coding communities or forums to engage with fellow
-                      developers and learn from their experiences.
-                    </List.Item>
-                    <List.Item>
-                      Consider participating in coding competitions or
-                      hackathons to challenge yourself and apply your skills.
-                    </List.Item>
-                  </List>
-                </Stepper.Step>
-
-                <Stepper.Step
-                  label="Create a portfolio"
-                  description="Build a portfolio showcasing your projects and contributions."
-                >
-                  <MantineTitle order={3}>Step 5:</MantineTitle>
-                  <List type="ordered">
-                    <List.Item>
-                      Develop a portfolio website or online presence to showcase
-                      your projects and achievements.
-                    </List.Item>
-                    <List.Item>
-                      Include a variety of projects that demonstrate your skills
-                      in different areas of software engineering.
-                    </List.Item>
-                    <List.Item>
-                      Document your contributions to open-source projects or any
-                      freelance work you have done.
-                    </List.Item>
-                    <List.Item>
-                      Write clear descriptions and provide code samples or links
-                      to your projects for potential employers to review.
-                    </List.Item>
-                  </List>
-                </Stepper.Step>
-
-                <Stepper.Step
-                  label="Seek internships or entry-level positions"
-                  description="Apply for internships or entry-level positions to gain practical experience."
-                >
-                  <MantineTitle order={3}>Step 6:</MantineTitle>
-                  <List type="ordered">
-                    <List.Item>
-                      Look for internships or entry-level positions at software
-                      development companies or tech startups.
-                    </List.Item>
-                    <List.Item>
-                      Tailor your resume and cover letter to highlight relevant
-                      skills and projects from your portfolio.
-                    </List.Item>
-                    <List.Item>
-                      Network with professionals in the industry through events,
-                      meetups, or online platforms like LinkedIn.
-                    </List.Item>
-                    <List.Item>
-                      Prepare for technical interviews by practicing coding
-                      problems and reviewing common interview questions.
-                    </List.Item>
-                  </List>
-                </Stepper.Step>
-
-                <Stepper.Step
-                  label="Continuously learn and grow"
-                  description="Stay updated on the latest trends, technologies, and best practices."
-                >
-                  <MantineTitle order={3}>Step 7:</MantineTitle>
-                  <List type="ordered">
-                    <List.Item>
-                      Stay informed about the latest advancements in software
-                      engineering through blogs, forums, and industry
-                      publications.
-                    </List.Item>
-                    <List.Item>
-                      Follow influential software engineers and thought leaders
-                      on social media to stay updated on trends and insights.
-                    </List.Item>
-                    <List.Item>
-                      Attend conferences, workshops, or webinars to expand your
-                      knowledge and network with professionals.
-                    </List.Item>
-                    <List.Item>
-                      Consider pursuing higher education or specialized
-                      certifications to enhance your qualifications and open up
-                      new opportunities.
-                    </List.Item>
-                  </List>
-                </Stepper.Step>
-
-                <Stepper.Completed>
-                  Congratulations! You have completed all steps.
-                </Stepper.Completed>
-              </Stepper>
-              <Group position="center" mt="xl" mb="sm">
-                <Button onClick={prevStep} w={100}>
-                  Previous
-                </Button>
-                <Button
-                  variant="default"
-                  onClick={() => {
-                    setActive(0);
-                  }}
-                  w={100}
-                >
-                  Reset
-                </Button>
-                <Button onClick={nextStep} w={100}>
-                  Next
-                </Button>
-              </Group>
-              <Group position="center" mb="xl">
-                <Button
-                  onClick={() => {
-                    return;
-                  }}
-                  w={330}
-                  variant="filled"
-                >
-                  Save
-                </Button>
-              </Group>
-            </Box>
+                    <Stepper.Completed>
+                      Congratulations! You have completed all steps.
+                    </Stepper.Completed>
+                  </Stepper>
+                  <Group position="center" mt="xl" mb="sm">
+                    <Button onClick={prevStep} w={100}>
+                      Previous
+                    </Button>
+                    <Button
+                      variant="default"
+                      onClick={() => {
+                        setActive(0);
+                      }}
+                      w={100}
+                    >
+                      Reset
+                    </Button>
+                    <Button onClick={nextStep} w={100}>
+                      Next
+                    </Button>
+                  </Group>
+                  <Group position="center" mb="xl">
+                    <Button
+                      onClick={() => {
+                        return;
+                      }}
+                      w={330}
+                      variant="filled"
+                    >
+                      Save
+                    </Button>
+                  </Group>
+                </Box>
+              </>
+            )}
           </>
         )}
       </Box>

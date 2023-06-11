@@ -50,6 +50,7 @@
     "mongoose-paginate-v2": "1.6.3",
     "node-polyglot": "2.4.2",
     "nodemailer": "6.9.2",
+    "openai": "3.2.1",
     "qrcode": "1.5.3",
     "rate-limit-redis": "3.0.1",
     "redlock": "4.2.0",

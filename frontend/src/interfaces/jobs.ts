@@ -28,3 +28,13 @@ export interface JobUpdate {
   category: string;
   image: FileWithPath;
 }
+
+export interface Roadmap {
+  title: string;
+  description: string;
+  content: string[];
+}
+
+export interface RoadmapResponse {
+  steps: Roadmap[];
+}

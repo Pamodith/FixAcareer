@@ -1,5 +1,6 @@
 export * from "./sort";
 export * from "./admin";
+export * from "./user";
 export { default as calculateGrade } from "./calculateGrade";
 export { default as calculateScore } from "./calculateScore";
 export { default as getLetter } from "./getLetter";

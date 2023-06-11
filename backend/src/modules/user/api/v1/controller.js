@@ -52,4 +52,17 @@ user.get(
   }),
 )
 
+user.post(
+  '/:id/roadmap',
+  tracedAsyncHandler(async function getRoadMapSteps(req, res) {
+    await UserService.getRoadMapSteps(req.params.id, req.body.jobRole)
+      .then((data) => {
+        return toSuccess({ res, status: 200, data, message: 'Success' })
+      })
+      .catch((err) => {
+        return toError({ res, message: err.message })
+      })
+  }),
+)
+
 export default user

@@ -1,6 +1,7 @@
 import axios from "axios";
 import requestConfig from "./config/requestConfig";
 import { UserBasic } from "../interfaces";
+import requestConfigJson from "./config/requestConfigJson";
 
 const BASE_URL = import.meta.env.VITE_REACT_APP_API_BASE_URL + "/user";
 
@@ -25,10 +26,19 @@ const getUserById = async (id: string) => {
   return response.data.data;
 };
 
+//get roadmaps by user id and job title
+const getRoadmapsByUserIdAndJobTitle = async (id: string, jobTitle: string) => {
+  const payload = {
+    jobRole: jobTitle,
+  };
+  return axios.post(`${BASE_URL}/${id}/roadmap`, payload, requestConfigJson);
+};
+
 const UserService = {
   userLogin,
   userRegister,
   getUserById,
+  getRoadmapsByUserIdAndJobTitle,
 };
 
 export default UserService;
