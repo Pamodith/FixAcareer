@@ -89,8 +89,9 @@ job.put(
       })
     })
     const jobToUpdate = {
-      name: job.fields.name,
+      title: job.fields.title,
       description: job.fields.description,
+      category: job.fields.category,
       lastUpdatedBy: job.fields.lastUpdatedBy,
     }
     if (job.files.image) {

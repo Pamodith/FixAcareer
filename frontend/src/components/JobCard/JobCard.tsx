@@ -212,7 +212,8 @@ const JobCard: React.FC<JobCardProps> = ({
       notifications.update({
         id: "updating-job",
         loading: false,
-        title: "Updating Job",
+        color: "teal",
+        title: "Job Updated",
         message: "Job updated successfully",
         icon: <IconCheck size={14} />,
         autoClose: 2000,
@@ -223,7 +224,8 @@ const JobCard: React.FC<JobCardProps> = ({
       notifications.update({
         id: "updating-job",
         loading: false,
-        title: "Updating Job",
+        color: "red",
+        title: "Error Occured",
         message: "Error updating job " + error,
         icon: <IconAlertTriangle size={14} />,
         autoClose: 2000,
