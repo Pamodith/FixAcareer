@@ -271,7 +271,7 @@ const AdminLogin: React.FC = () => {
                   label="Remember me"
                   {...form.getInputProps("remember")}
                 />
-                <Anchor<"a"> href="/admin-forget-password" size="sm">
+                <Anchor<"a"> href="/admin/forgot-password" size="sm">
                   Forgot password?
                 </Anchor>
               </Group>

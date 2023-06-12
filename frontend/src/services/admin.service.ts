@@ -60,6 +60,10 @@ export const updateAdminPassword = async (updatePswObj: ChangePassword) => {
   );
 };
 
+export const forgotPassword = async (email: string) => {
+  return axios.post(`${BASE_URL}/forgot-password`, { email });
+};
+
 export const deleteAdmin = async (id: string) => {
   const response = await axios.delete(`${BASE_URL}/${id}`, requestConfig);
   return response.data.data;
@@ -72,6 +76,7 @@ const AdminService = {
   deleteAdmin,
   updateAdminInfoAdminSettings,
   updateAdminPassword,
+  forgotPassword,
 };
 
 export default AdminService;

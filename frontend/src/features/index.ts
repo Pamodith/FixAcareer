@@ -8,6 +8,8 @@ import AdminSettings from "./AdminSettings";
 import UserLogin from "./UserLogin";
 import ManageAdmins from "./ManageAdmins";
 import AdminDashboardStats from "./AdminDashboardStats";
+import AdminForgotPassword from "./AdminForgotPassword";
+import UserForgotPassword from "./UserForgotPassword";
 
 export {
   AdminLogin,
@@ -20,4 +22,6 @@ export {
   UserLogin,
   ManageAdmins,
   AdminDashboardStats,
+  AdminForgotPassword,
+  UserForgotPassword,
 };

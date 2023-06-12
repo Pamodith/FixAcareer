@@ -1,5 +1,7 @@
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import generator from 'generate-password'
+import sha256 from 'crypto-js/sha256'
 import { Configuration, OpenAIApi } from 'openai'
 import { moduleLogger } from '@sliit-foss/module-logger'
 import UserEmailService from '../../../../../email/user.email'
@@ -75,6 +77,16 @@ const getPrompt = (user, jobRole) => {
   return message
 }
 
+const generatePassword = () => {
+  return generator.generate({
+    length: 10,
+    numbers: true,
+    uppercase: true,
+    lowercase: true,
+    excludeSimilarCharacters: true,
+  })
+}
+
 const createUser = async (user) => {
   if (await checkIfEmailExists(user.email)) {
     throw new Error(`Email already exists - email: ${user.email}`)
@@ -147,11 +159,30 @@ const getRoadMapSteps = async (userid, jobRole) => {
   }
 }
 
+const forgotPassword = async (email) => {
+  const user = await UserRepository.getUserByEmail(email)
+  if (!user) {
+    throw new Error('No user found with the given email')
+  }
+  const newPassword = generatePassword()
+  const hashedPassword = await hashPassword(sha256(newPassword).toString())
+  return await UserRepository.updateUserById(user._id, { password: hashedPassword })
+    .then(async (result) => {
+      await UserEmailService.sendPasswordResetEmail(user, newPassword)
+      return result
+    })
+    .catch((err) => {
+      logger.error(`An error occurred when updating user password - err: ${err.message}`)
+      throw err
+    })
+}
+
 const UserService = {
   createUser,
   userLogin,
   getUserById,
   getRoadMapSteps,
+  forgotPassword,
 }
 
 export default UserService

@@ -39,6 +39,19 @@ user.post(
   }),
 )
 
+user.post(
+  '/forgot-password',
+  tracedAsyncHandler(async function forgotPassword(req, res) {
+    await UserService.forgotPassword(req.body.email)
+      .then((data) => {
+        return toSuccess({ res, status: 200, data, message: 'Success' })
+      })
+      .catch((err) => {
+        return toError({ res, message: err.message })
+      })
+  }),
+)
+
 user.get(
   '/:id',
   tracedAsyncHandler(async function getUserById(req, res) {

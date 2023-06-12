@@ -306,8 +306,10 @@ const UserLogin: React.FC = () => {
                             {...form.getInputProps("remember")}
                           />
                           <Anchor<"a">
-                            onClick={(event) => event.preventDefault()}
-                            href="#"
+                            onClick={(event) => {
+                              event.preventDefault();
+                              navigate("/user/forgot-password");
+                            }}
                             size="sm"
                           >
                             Forgot password?

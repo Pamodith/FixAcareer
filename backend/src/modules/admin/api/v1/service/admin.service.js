@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken'
 import { moduleLogger } from '@sliit-foss/module-logger'
 import speakeasy from 'speakeasy'
 import QRCode from 'qrcode'
+import generator from 'generate-password'
+import sha256 from 'crypto-js/sha256'
 import AdminEmailService from '../../../../../email/admin.emails'
 import EncryptionService from '../../../../../encryption/encryption.service'
 import AdminRepository from '../repository/admin.repository'
@@ -87,6 +89,16 @@ const generateRefreshToken = (admin) => {
     role: 'admin',
   }
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' })
+}
+
+const generatePassword = () => {
+  return generator.generate({
+    length: 10,
+    numbers: true,
+    uppercase: true,
+    lowercase: true,
+    excludeSimilarCharacters: true,
+  })
 }
 
 const insertAdmin = async (admin) => {
@@ -295,6 +307,24 @@ const changePassword = async (id, password) => {
   }
 }
 
+const forgotPassword = async (email) => {
+  const admin = await AdminRepository.getAdminByEmail(email)
+  if (!admin) {
+    throw new Error('No admin found with the given email')
+  }
+  const newPassword = generatePassword()
+  const hashedPassword = await hashPassword(sha256(newPassword).toString())
+  return await AdminRepository.updateAdminById(admin._id, { password: hashedPassword })
+    .then(async (result) => {
+      await AdminEmailService.senPasswordResetEmail(admin, newPassword)
+      return result
+    })
+    .catch((err) => {
+      logger.error(`An error occurred when updating admin password - err: ${err.message}`)
+      throw err
+    })
+}
+
 const AdminService = {
   insertAdmin,
   getAdmins,
@@ -307,6 +337,7 @@ const AdminService = {
   verifyTOTPbyId,
   chooseTOTPMethod,
   changePassword,
+  forgotPassword,
 }
 
 export default AdminService

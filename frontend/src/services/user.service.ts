@@ -34,11 +34,16 @@ const getRoadmapsByUserIdAndJobTitle = async (id: string, jobTitle: string) => {
   return axios.post(`${BASE_URL}/${id}/roadmap`, payload, requestConfigJson);
 };
 
+const forgotPassword = async (email: string) => {
+  return axios.post(`${BASE_URL}/forgot-password`, { email });
+};
+
 const UserService = {
   userLogin,
   userRegister,
   getUserById,
   getRoadmapsByUserIdAndJobTitle,
+  forgotPassword,
 };
 
 export default UserService;

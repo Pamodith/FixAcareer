@@ -8,7 +8,13 @@ import {
   Jobs,
   UserHome,
 } from "../pages";
-import { AdminLogin, Logout, UserLogin } from "../features";
+import {
+  AdminForgotPassword,
+  AdminLogin,
+  Logout,
+  UserForgotPassword,
+  UserLogin,
+} from "../features";
 import AdminPrivateRoute from "./AdminPrivateRoute";
 import UserPrivateRoute from "./UserPrivateRoute";
 
@@ -20,6 +26,10 @@ const MainRoutes = () => {
         <Route path="/logout" element={<Logout />} />
 
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/forgot-password"
+          element={<AdminForgotPassword />}
+        />
         <Route path="/admin" element={<AdminPrivateRoute />}>
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route
@@ -29,6 +39,7 @@ const MainRoutes = () => {
         </Route>
 
         <Route path="/user/login" element={<UserLogin />} />
+        <Route path="/user/forgot-password" element={<UserForgotPassword />} />
         <Route path="/user" element={<UserPrivateRoute />}>
           <Route path="/user" element={<UserHome />} />
           <Route path="/user/iq-test" element={<IQTest />} />
